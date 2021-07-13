@@ -4,8 +4,10 @@
         "target": "es2015",
         "declaration": true,
         "outDir": "./dist",
+        "lib": ["es6", "dom"],
         "resolveJsonModule": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "strictNullChecks": true
     },
     "include": [
         "src/**/*"

@@ -1,3 +1,3 @@
-import StakingSingleReward from "./staking/StakingSingleReward"
+import StakingSingleReward from './staking/StakingSingleReward'
 
 export { StakingSingleReward }

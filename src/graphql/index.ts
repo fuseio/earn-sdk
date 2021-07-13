@@ -1,16 +1,18 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import fetch from 'cross-fetch'
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core'
+import { UNISWAP_SUBGRAPH_URL, FUSESWAP_SUBGRAPH_URL, PANCAKESWAP_SUBGRAPH_URL } from '../constants'
 
 export const uniswapClient = new ApolloClient({
-  uri: process.env.UNISWAP_SUBGRAPH_URL,
+  link: new HttpLink({ uri: UNISWAP_SUBGRAPH_URL, fetch }),
   cache: new InMemoryCache()
 })
 
 export const fuseswapClient = new ApolloClient({
-  uri: process.env.FUSESWAP_SUBGRAPH_URL,
+  link: new HttpLink({ uri: FUSESWAP_SUBGRAPH_URL, fetch }),
   cache: new InMemoryCache()
 })
 
 export const pancakeswapClient = new ApolloClient({
-  uri: process.env.PANCAKESWAP_SUBGRAPH_URL,
+  link: new HttpLink({ uri: PANCAKESWAP_SUBGRAPH_URL, fetch }),
   cache: new InMemoryCache()
 })

@@ -1,11 +1,10 @@
-import { Contract } from 'ethers'
-import IStaking from './IStaking'
+import Web3 from 'web3'
 
-export default abstract class Staking implements IStaking {
-  protected readonly contract: Contract
+export default abstract class Staking {
+  protected readonly web3: Web3
 
-  constructor(stakingAddress: string, ABI: any, provider: any) {
-    this.contract = new Contract(stakingAddress, ABI, provider)
+  constructor (protected readonly stakingAddress: string, provider: any) {
+    this.web3 = new Web3(provider)
   }
 
   /**
@@ -31,12 +30,22 @@ export default abstract class Staking implements IStaking {
    */
   abstract getStakerInfo(account: string): Promise<any>
 
+  /**
+   * Gets global reward stats for contract
+   * @param account the account to get stats for
+   * @param pairAddress the staking token
+   * @param networkId the networkId where contract is deployed
+   * @param rewards array of rewards offered
+   */
   abstract getStats(
     account: string,
     pairAddress: string,
     networkId: number,
     rewards?: string[],
   ): Promise<any>
-  
+
+  /**
+   * Gets the start, duration and end of staking
+   */
   abstract getStakingTimes(): Promise<any>
 }

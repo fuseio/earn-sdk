@@ -1,14 +1,14 @@
-import { TransactionResponse } from '@ethersproject/providers'
-
+import { BigNumber } from 'bignumber.js'
 import Staking from './Staking'
-import STAKING_ABI from '../constants/abi/StakingSingleReward.json'
-import { BigNumber } from 'ethers'
+import ABI from '../constants/abi/StakingSingleReward.json'
 import fetchPairInfo from '../utils/fetchPairInfo'
-
-interface StakerData {
-  userTotalStaked: string
-  userTotalWithdrawn: string
-}
+import fetchTokenPrice from '../utils/fetchTokenPrice'
+import {
+  calculateApy,
+  calculateReserves,
+  weiToNumber
+} from '../utils'
+import { ethCall, ethTransaction } from '../utils/eth'
 
 interface StakingTimes {
   start: number
@@ -17,91 +17,140 @@ interface StakingTimes {
 }
 
 export default class StakingSingleReward extends Staking {
-  constructor(stakingAddress: string, provider: any) {
-    super(stakingAddress, STAKING_ABI, provider)
+  // eslint-disable-next-line no-useless-constructor
+  constructor (stakingAddress: string, provider: any) {
+    super(stakingAddress, provider)
   }
 
-  deposit(amount: string): Promise<TransactionResponse> {
-    return this.contract.stake(amount)
+  deposit (amount: string): Promise<any> {
+    return ethTransaction(this.stakingAddress, 'deposit', ABI, this.web3, [
+      amount
+    ])
   }
 
-  withdraw(amount: string): Promise<TransactionResponse> {
-    return this.contract.withdrawStakeAndInterest(amount)
+  withdraw (amount: string): Promise<any> {
+    return ethTransaction(this.stakingAddress, 'withdraw', ABI, this.web3, [
+      amount
+    ])
   }
 
-  withdrawReward(): Promise<TransactionResponse> {
-    return this.contract.withdrawInterest()
+  withdrawReward (): Promise<any> {
+    return ethTransaction(
+      this.stakingAddress,
+      'withdrawInterest',
+      ABI,
+      this.web3
+    )
   }
 
-  async getStakerInfo(account: string): Promise<StakerData> {
-    const [
-      userTotalStaked,
-      userTotalWithdrawn,
-    ] = await this.contract.getStakerData(account)
+  async getStakerInfo (account: string): Promise<any> {
+    const result = await ethCall(
+      this.stakingAddress,
+      'getStakerData',
+      ABI,
+      this.web3,
+      [account]
+    )
+    return Object.values(result)
+  }
+
+  async getStatsData (account: string): Promise<any> {
+    const result = await ethCall(
+      this.stakingAddress,
+      'getStatsData',
+      ABI,
+      this.web3,
+      [account]
+    )
+    return Object.values(result)
+  }
+
+  async getStakingTimes (): Promise<StakingTimes> {
+    const duration: string = await ethCall(
+      this.stakingAddress,
+      'stakingPeriod',
+      ABI,
+      this.web3
+    )
+    const start: string = await ethCall(
+      this.stakingAddress,
+      'stakingStartTime',
+      ABI,
+      this.web3
+    )
+
     return {
-      userTotalStaked,
-      userTotalWithdrawn,
+      start: Number(start),
+      duration: Number(duration),
+      end: Number(start) + Number(duration)
     }
   }
 
-  async getStats(account: string, pairAddress: string, networkId: number, rewards?: Array<string>): Promise<any> {
+  async getStats (account: string, pairAddress: string, networkId: number, rewards?: Array<string>): Promise<any> {
     const [
       globalTotalStake,
       totalRewards,
       estimatedRewards,
       unlockedRewards,
-      accuruedRewards,
-    ] = await this.contract.getStatsData(account)
-    const { data } = await fetchPairInfo(pairAddress, networkId)
-    const { duration } = await this.getStakingTimes()
-    const { userTotalStaked } = await this.getStakerInfo(account)
-    // since it's a single reward contract, we assume only one reward
-    const rewardPrice = await getTokenPrice(rewards[0])
+      accuruedRewards
+    ] = await this.getStatsData(account)
 
-    
-    const reserveUSD = data?.pair?.reserveUSD
-    const totalSupply = data?.pair?.totalSupply
-    const token0 = data?.pair?.token0
-    const token1 = data?.pair?.token1
-    const tokenReserve0 = data?.pair?.reserve0
-    const tokenReserve1 = data?.pair?.reserve1
-    
-    const lockedRewards = totalRewards.sub(unlockedRewards)
-    const pairPrice = reserveUSD / totalSupply
-    const totalStakedUSD = userTotalStaked * pairPrice
-    const globalTotalStakeUSD = globalTotalStake * pairPrice
-    const durationInDays = duration / (3600 * 24)
-    const totalRewardsInUSD = totalRewards * rewardPrice
-    const apyPercent = (totalRewardsInUSD / globalTotalStakeUSD) * (365 / durationInDays)
+    const [userTotalStaked] = await this.getStakerInfo(account)
 
-    return {
-      globalTotalStake: globalTotalStake.toString(),
-      totalReward: totalRewards.toString(),
-      estimatedReward: estimatedRewards.toString(),
-      unlockedReward: unlockedRewards.toString(),
-      accuruedRewards: accuruedRewards.toString(),
-      rewardsInfo: [{
-        totalRewardsInUSD,
-        apyPercent
-      }],
+    const {
+      reserveUSD,
+      totalSupply,
       token0,
       token1,
-      tokenReserve0,
-      tokenReserve1,
-      lockedRewards,
-      totalStakedUSD
-    }
-  }
+      totalReserve0,
+      totalReserve1
+    } = await fetchPairInfo(pairAddress, networkId)
 
-  async getStakingTimes(): Promise<StakingTimes> {
-    const duration: BigNumber = await this.contract.stakingPeriod()
-    const start: BigNumber = await this.contract.stakingStartTime()
-    const end = start.add(duration)
+    const [reserve0, reserve1] = calculateReserves(
+      globalTotalStake,
+      totalSupply,
+      totalReserve0,
+      totalReserve1
+    )
+
+    const lockedRewards = new BigNumber(totalRewards).minus(
+      new BigNumber(unlockedRewards)
+    )
+    const pairPrice = reserveUSD / totalSupply
+    const totalStakedUSD = weiToNumber(userTotalStaked) * pairPrice
+    const globalTotalStakeUSD = weiToNumber(globalTotalStake) * pairPrice
+
+    const reward = rewards && rewards[0]
+    const rewardPrice = await fetchTokenPrice(reward, networkId)
+    const totalRewardsInUSD = weiToNumber(totalRewards) * rewardPrice
+
+    const { duration } = await this.getStakingTimes()
+    const apyPercent = calculateApy(
+      totalRewardsInUSD,
+      globalTotalStakeUSD,
+      duration
+    )
 
     return {
-      start: start.toNumber(),
-      duration: duration.toNumber(),
-      end: end.toNumber(),
+      globalTotalStake,
+      totalRewards,
+      estimatedRewards,
+      unlockedRewards,
+      accuruedRewards,
+      rewardsInfo: [
+        {
+          totalRewardsInUSD,
+          apyPercent
+        }
+      ],
+      token0,
+      token1,
+      totalStakedUSD,
+      globalTotalStakeUSD,
+      pairPrice,
+      reserve0: reserve0.toFixed(),
+      reserve1: reserve1.toFixed(),
+      lockedRewards: lockedRewards.toFixed()
     }
   }
 }

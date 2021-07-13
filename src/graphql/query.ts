@@ -1,7 +1,7 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client/core'
 
-export function getPairInfoQuery(address) {
-    return gql`
+export function getPairInfoQuery (address: string) {
+  return gql`
       {
         pair(id: "${address.toLowerCase()}") {
           untrackedVolumeUSD
@@ -28,4 +28,17 @@ export function getPairInfoQuery(address) {
         }
       }
     `
-  }
+}
+
+export function getTokenPriceQuery (address: string) {
+  return gql`
+        {
+            token(id: "${address.toLowerCase()}") {
+                derivedETH
+            }
+            bundle(id: "1") {
+                ethPrice
+            }
+        }
+    `
+}
