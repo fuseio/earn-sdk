@@ -4,16 +4,9 @@ export function getPairInfoQuery (address: string) {
   return gql`
       {
         pair(id: "${address.toLowerCase()}") {
-          untrackedVolumeUSD
-          reserveETH
           reserveUSD
-          token0Price
-          token1Price
-          volumeUSD
-          liquidityProviderCount
           reserve0
           reserve1
-          trackedReserveETH
           totalSupply
           token0 {
             id
@@ -41,4 +34,17 @@ export function getTokenPriceQuery (address: string) {
             }
         }
     `
+}
+
+export function getTokenPriceQueryPancake (address: string) {
+  return gql`
+    {
+      token(id: "${address.toLowerCase()}") {
+        derivedBNB
+      }
+      bundle(id: "1") {
+        bnbPrice
+      }
+    }
+  `
 }

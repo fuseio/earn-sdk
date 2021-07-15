@@ -10,19 +10,22 @@ export default abstract class Staking {
   /**
    * Deposit the provided amount of the staking token into the staking contract
    * @param amount the number of staking tokens to deposit
+   * @param account the account sending the transaction
    */
-  abstract deposit(amount: string): Promise<any>
+  abstract deposit(amount: string, account: string): Promise<any>
 
   /**
    * Withdraw the provided amount of the staking token from the staking contract
    * @param amount the number of staking tokens to withdraw
+   * @param account the account sending the transaction
    */
-  abstract withdraw(amount: string): Promise<any>
+  abstract withdraw(amount: string, account: string): Promise<any>
 
   /**
    * Withdraw the rewards accured
+   * @param account the account sending the transaction
    */
-  abstract withdrawReward(): Promise<any>
+  abstract withdrawReward(account: string): Promise<any>
 
   /**
    * Get staking information for the provided address

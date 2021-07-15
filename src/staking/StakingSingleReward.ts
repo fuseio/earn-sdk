@@ -22,24 +22,36 @@ export default class StakingSingleReward extends Staking {
     super(stakingAddress, provider)
   }
 
-  deposit (amount: string): Promise<any> {
-    return ethTransaction(this.stakingAddress, 'deposit', ABI, this.web3, [
-      amount
-    ])
+  deposit (amount: string, account: string): Promise<any> {
+    return ethTransaction(
+      this.stakingAddress,
+      'stake',
+      ABI,
+      this.web3,
+      [amount],
+      account
+    )
   }
 
-  withdraw (amount: string): Promise<any> {
-    return ethTransaction(this.stakingAddress, 'withdraw', ABI, this.web3, [
-      amount
-    ])
+  withdraw (amount: string, account: string): Promise<any> {
+    return ethTransaction(
+      this.stakingAddress,
+      'withdrawStakeAndInterest',
+      ABI,
+      this.web3,
+      [amount],
+      account
+    )
   }
 
-  withdrawReward (): Promise<any> {
+  withdrawReward (account: string): Promise<any> {
     return ethTransaction(
       this.stakingAddress,
       'withdrawInterest',
       ABI,
-      this.web3
+      this.web3,
+      [],
+      account
     )
   }
 

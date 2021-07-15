@@ -9,31 +9,18 @@ function ethJsonRpc (
   method: string,
   abi: any,
   web3: any,
-  parameters: any[] = []
+  parameters: any[] = [],
+  account?: string
 ) {
-  return new Promise<any>((resolve, reject) => {
-    const contract = new web3.eth.Contract(abi, address)
+  const contract = new web3.eth.Contract(abi, address)
 
-    if (jsonRpcMethod === JsonRpc.EthSendTransaction) {
-      contract.methods[method](...parameters)
-        .send()
-        .then((result: any) => {
-          resolve(result)
-        })
-        .catch(() => {
-          reject(new Error('Error occurred during [eth_sendTransaction].'))
-        })
-    } else if (jsonRpcMethod === JsonRpc.EthCall) {
-      contract.methods[method](...parameters)
-        .call()
-        .then((result: any) => {
-          resolve(result)
-        })
-        .catch(() => {
-          reject(new Error('Error occurred during [eth_call].'))
-        })
-    }
-  })
+  if (jsonRpcMethod === JsonRpc.EthSendTransaction) {
+    return contract.methods[method](...parameters)
+      .send({ from: account })
+  } else if (jsonRpcMethod === JsonRpc.EthCall) {
+    return contract.methods[method](...parameters)
+      .call()
+  }
 }
 
 /**
@@ -69,7 +56,8 @@ export function ethTransaction (
   method: string,
   abi: any,
   web3: any,
-  parameters: any[] = []
+  parameters: any[] = [],
+  account: string
 ) {
-  return ethJsonRpc(JsonRpc.EthSendTransaction, address, method, abi, web3, parameters)
+  return ethJsonRpc(JsonRpc.EthSendTransaction, address, method, abi, web3, parameters, account)
 }
