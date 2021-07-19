@@ -1,9 +1,9 @@
 import Web3 from 'web3'
 
-export default abstract class Staking {
+export default abstract class RewardProgram {
   protected readonly web3: Web3
 
-  constructor (protected readonly stakingAddress: string, provider: any) {
+  constructor (readonly stakingAddress: string, provider: any) {
     this.web3 = new Web3(provider)
   }
 

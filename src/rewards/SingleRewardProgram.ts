@@ -1,6 +1,6 @@
 import { BigNumber } from 'bignumber.js'
-import Staking from './Staking'
-import ABI from '../constants/abi/StakingSingleReward.json'
+import RewardProgram from './RewardProgam'
+import ABI from '../constants/abi/SingleRewardProgram.json'
 import fetchPairInfo from '../utils/fetchPairInfo'
 import fetchTokenPrice from '../utils/fetchTokenPrice'
 import {
@@ -16,7 +16,7 @@ interface StakingTimes {
   end: number
 }
 
-export default class StakingSingleReward extends Staking {
+export default class SingleRewardProgram extends RewardProgram {
   // eslint-disable-next-line no-useless-constructor
   constructor (stakingAddress: string, provider: any) {
     super(stakingAddress, provider)
