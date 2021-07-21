@@ -2,6 +2,7 @@ name: Deploy
 on:
   release:
     types: [published]
+  workflow_dispatch:
 jobs:
   deploy:
     name: Deploy
@@ -12,7 +13,9 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: '12'
+          node-version: 12.x
+          registry-url: 'https://registry.npmjs.org'
+          always-auth: true
       - name: Install dependencies
         run: yarn
       - name: Lint
