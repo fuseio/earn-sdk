@@ -145,13 +145,13 @@ export default class SingleRewardProgram extends RewardProgram {
 
     return {
       globalTotalStake,
-      totalRewards,
-      estimatedRewards,
       unlockedRewards,
-      accuruedRewards,
       rewardsInfo: [
         {
+          totalRewards,
           totalRewardsInUSD,
+          estimatedRewards,
+          accuruedRewards,
           apyPercent
         }
       ],
