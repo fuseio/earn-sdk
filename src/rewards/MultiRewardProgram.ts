@@ -5,7 +5,6 @@ import RewardProgram from './RewardProgam'
 import fetchPairInfo from '../utils/fetchPairInfo'
 import { calculateApy, calculateReserves, weiToNumber } from '../utils'
 import fetchTokenPrice from '../utils/fetchTokenPrice'
-import BigNumber from 'bignumber.js'
 
 export default class MultiRewardProgram extends RewardProgram {
   // eslint-disable-next-line no-useless-constructor
@@ -138,17 +137,9 @@ export default class MultiRewardProgram extends RewardProgram {
     const rewardsInfo: any = []
 
     for (const reward of rewards) {
-      const estimatedRewards = await ethCall(
+      const accuruedRewards = await ethCall(
         this.stakingAddress,
         'earned',
-        ABI,
-        this.web3,
-        [account, reward]
-      )
-
-      const paidRewards = await ethCall(
-        this.stakingAddress,
-        'userRewardPerTokenPaid',
         ABI,
         this.web3,
         [account, reward]
@@ -161,11 +152,17 @@ export default class MultiRewardProgram extends RewardProgram {
         this.web3
       )
 
-      const accuruedRewards = new BigNumber(estimatedRewards).plus(paidRewards).toString()
-
       const totalRewards = await ethCall(
         this.stakingAddress,
         'getRewardForDuration',
+        ABI,
+        this.web3,
+        [reward]
+      )
+
+      const rewardPerToken = await ethCall(
+        this.stakingAddress,
+        'rewardPerToken',
         ABI,
         this.web3,
         [reward]
@@ -184,9 +181,9 @@ export default class MultiRewardProgram extends RewardProgram {
       rewardsInfo.push({
         totalRewards,
         totalRewardsInUSD,
-        estimatedRewards,
         accuruedRewards,
-        apyPercent
+        apyPercent,
+        rewardPerToken
       })
     }
 
