@@ -2,6 +2,20 @@
 
 # Class: SingleRewardProgram
 
+Create a new SingleRewardProgram which represents a single reward
+contract on the fuse network. The instance provides basic functionality
+for interacting with the contract.
+
+e.g with web3.js
+```typescript
+import Web3 from 'web3'
+import { SingleRewardProgram } from '@fuseio/rewards-sdk'
+
+const stakingAddress = '0x'
+const web3Provider = new Web3('https://rpc.fuse.io')
+const rewardProgram = new SingleRewardProgram(stakingAddress, web3Provider)
+```
+
 ## Hierarchy
 
 - `RewardProgram`
@@ -48,7 +62,7 @@ RewardProgram.constructor
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:21](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L21)
+[rewards/SingleRewardProgram.ts:36](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L36)
 
 ## Properties
 
@@ -72,7 +86,7 @@ RewardProgram.web3
 
 #### Defined in
 
-[rewards/RewardProgam.ts:4](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/RewardProgam.ts#L4)
+[rewards/RewardProgam.ts:4](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/RewardProgam.ts#L4)
 
 ## Methods
 
@@ -80,12 +94,21 @@ RewardProgram.web3
 
 ▸ **deposit**(`amount`, `account`): `Promise`<`any`\>
 
+Deposit the provided amount of the staking token into the staking contract
+
+```typescript
+rewardProgram.deposit(
+  '1000000000000000000',
+  '0x'
+)
+```
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `amount` | `string` |
-| `account` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `amount` | `string` | the number of staking tokens to deposit |
+| `account` | `string` | the account sending the transaction |
 
 #### Returns
 
@@ -97,7 +120,7 @@ RewardProgram.deposit
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:25](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L25)
+[rewards/SingleRewardProgram.ts:52](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L52)
 
 ___
 
@@ -105,11 +128,20 @@ ___
 
 ▸ **getStakerInfo**(`account`): `Promise`<`any`\>
 
+Get reward information for the provided address and rewardToken
+
+```typescript
+rewardProgram.getStakerInfo(
+  '0x',
+  '0x00'
+)
+```
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `account` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `account` | `string` | address to fetch the reward information for |
 
 #### Returns
 
@@ -121,13 +153,15 @@ RewardProgram.getStakerInfo
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:58](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L58)
+[rewards/SingleRewardProgram.ts:118](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L118)
 
 ___
 
 ### getStakingTimes
 
 ▸ **getStakingTimes**(): `Promise`<`StakingTimes`\>
+
+Gets the start, duration and end of staking
 
 #### Returns
 
@@ -139,7 +173,7 @@ RewardProgram.getStakingTimes
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:80](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L80)
+[rewards/SingleRewardProgram.ts:143](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L143)
 
 ___
 
@@ -147,14 +181,25 @@ ___
 
 ▸ **getStats**(`account`, `pairAddress`, `networkId`, `rewards?`): `Promise`<`any`\>
 
+Gets global reward stats for rewardProgram
+
+```typescript
+rewardProgram.getStats(
+  '0x',
+  '0x',
+  122,
+  ['0x']
+)
+```
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `account` | `string` |
-| `pairAddress` | `string` |
-| `networkId` | `number` |
-| `rewards?` | `string`[] |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `account` | `string` | the account to get stats for |
+| `pairAddress` | `string` | the address of the staking token |
+| `networkId` | `number` | the networkId where contract is deployed |
+| `rewards?` | `string`[] | array of rewards offerred |
 
 #### Returns
 
@@ -166,13 +211,13 @@ RewardProgram.getStats
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:101](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L101)
+[rewards/SingleRewardProgram.ts:180](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L180)
 
 ___
 
 ### getStatsData
 
-▸ **getStatsData**(`account`): `Promise`<`any`\>
+▸ `Private` **getStatsData**(`account`): `Promise`<`any`\>
 
 #### Parameters
 
@@ -186,7 +231,7 @@ ___
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:69](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L69)
+[rewards/SingleRewardProgram.ts:129](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L129)
 
 ___
 
@@ -194,12 +239,21 @@ ___
 
 ▸ **withdraw**(`amount`, `account`): `Promise`<`any`\>
 
+Withdraw the provided amount of the staking token from the staking contract
+
+```typescript
+rewardProgram.withdraw(
+  '1000000000000000000',
+  '0x'
+)
+```
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `amount` | `string` |
-| `account` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `amount` | `string` | the number of staking tokens to withdraw |
+| `account` | `string` | the account sending the transaction |
 
 #### Returns
 
@@ -211,7 +265,7 @@ RewardProgram.withdraw
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:36](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L36)
+[rewards/SingleRewardProgram.ts:75](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L75)
 
 ___
 
@@ -219,11 +273,19 @@ ___
 
 ▸ **withdrawReward**(`account`): `Promise`<`any`\>
 
+Withdraw the rewards accured
+
+```typescript
+rewardProgram.withdrawReward(
+  '0x'
+)
+```
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `account` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `account` | `string` | the account sending the transaction |
 
 #### Returns
 
@@ -235,4 +297,4 @@ RewardProgram.withdrawReward
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:47](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L47)
+[rewards/SingleRewardProgram.ts:96](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L96)

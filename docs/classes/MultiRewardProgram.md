@@ -6,6 +6,7 @@ Create a new MultiRewardProgram which represents a multi reward
 contract on the fuse network. The instance provides basic functionality
 for interacting with the contract.
 
+e.g with web3.js
 ```typescript
 import Web3 from 'web3'
 import { MultiRewardProgram } from '@fuseio/rewards-sdk'
@@ -61,7 +62,7 @@ RewardProgram.constructor
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:25](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L25)
+[rewards/MultiRewardProgram.ts:26](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L26)
 
 ## Properties
 
@@ -85,7 +86,7 @@ RewardProgram.web3
 
 #### Defined in
 
-[rewards/RewardProgam.ts:4](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/RewardProgam.ts#L4)
+[rewards/RewardProgam.ts:4](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/RewardProgam.ts#L4)
 
 ## Methods
 
@@ -97,8 +98,8 @@ Deposit the provided amount of the staking token into the staking contract
 
 ```typescript
 rewardProgram.deposit(
-  '1000000000000000000',
-  '0x'
+   '1000000000000000000',
+   '0x'
 )
 ```
 
@@ -119,7 +120,7 @@ RewardProgram.deposit
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:41](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L41)
+[rewards/MultiRewardProgram.ts:42](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L42)
 
 ___
 
@@ -142,7 +143,7 @@ ___
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:212](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L212)
+[rewards/MultiRewardProgram.ts:217](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L217)
 
 ___
 
@@ -176,7 +177,7 @@ RewardProgram.getStakerInfo
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:108](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L108)
+[rewards/MultiRewardProgram.ts:109](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L109)
 
 ___
 
@@ -184,11 +185,13 @@ ___
 
 ▸ **getStakingTimes**(`rewardsToken?`): `Promise`<`any`\>
 
+Gets the start, duration and end of staking
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `rewardsToken?` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `rewardsToken?` | `string` | the reward to get time information for |
 
 #### Returns
 
@@ -200,7 +203,7 @@ RewardProgram.getStakingTimes
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:193](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L193)
+[rewards/MultiRewardProgram.ts:198](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L198)
 
 ___
 
@@ -238,7 +241,7 @@ RewardProgram.getStats
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:148](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L148)
+[rewards/MultiRewardProgram.ts:149](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L149)
 
 ___
 
@@ -272,7 +275,7 @@ RewardProgram.withdraw
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:64](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L64)
+[rewards/MultiRewardProgram.ts:65](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L65)
 
 ___
 
@@ -304,4 +307,4 @@ RewardProgram.withdrawReward
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:85](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L85)
+[rewards/MultiRewardProgram.ts:86](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L86)

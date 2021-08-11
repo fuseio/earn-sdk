@@ -28,17 +28,17 @@ export default class MultiRewardProgram extends RewardProgram {
   }
 
   /**
-    * Deposit the provided amount of the staking token into the staking contract
-    *
-    * ```typescript
-    * rewardProgram.deposit(
-    *   '1000000000000000000',
-    *   '0x'
-    * )
-    * ```
-    * @param amount the number of staking tokens to deposit
-    * @param account the account sending the transaction
-    */
+   * Deposit the provided amount of the staking token into the staking contract
+   *
+   * ```typescript
+   * rewardProgram.deposit(
+   *    '1000000000000000000',
+   *    '0x'
+   * )
+   * ```
+   * @param amount the number of staking tokens to deposit
+   * @param account the account sending the transaction
+   */
   deposit (amount: string, account: string): Promise<any> {
     return ethTransaction(
       this.stakingAddress,
@@ -191,6 +191,10 @@ export default class MultiRewardProgram extends RewardProgram {
     }
   }
 
+  /**
+   * Gets the start, duration and end of staking
+   * @param rewardsToken the reward to get time information for
+   */
   async getStakingTimes (rewardsToken?: string): Promise<any> {
     const rewardData = await ethCall(
       this.stakingAddress,
