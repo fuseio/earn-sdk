@@ -48,7 +48,7 @@ RewardProgram.constructor
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:21](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/SingleRewardProgram.ts#L21)
+[rewards/SingleRewardProgram.ts:21](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L21)
 
 ## Properties
 
@@ -72,7 +72,7 @@ RewardProgram.web3
 
 #### Defined in
 
-[rewards/RewardProgam.ts:4](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/RewardProgam.ts#L4)
+[rewards/RewardProgam.ts:4](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/RewardProgam.ts#L4)
 
 ## Methods
 
@@ -97,7 +97,7 @@ RewardProgram.deposit
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:25](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/SingleRewardProgram.ts#L25)
+[rewards/SingleRewardProgram.ts:25](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L25)
 
 ___
 
@@ -121,7 +121,7 @@ RewardProgram.getStakerInfo
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:58](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/SingleRewardProgram.ts#L58)
+[rewards/SingleRewardProgram.ts:58](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L58)
 
 ___
 
@@ -139,7 +139,7 @@ RewardProgram.getStakingTimes
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:80](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/SingleRewardProgram.ts#L80)
+[rewards/SingleRewardProgram.ts:80](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L80)
 
 ___
 
@@ -166,7 +166,7 @@ RewardProgram.getStats
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:101](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/SingleRewardProgram.ts#L101)
+[rewards/SingleRewardProgram.ts:101](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L101)
 
 ___
 
@@ -186,7 +186,7 @@ ___
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:69](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/SingleRewardProgram.ts#L69)
+[rewards/SingleRewardProgram.ts:69](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L69)
 
 ___
 
@@ -211,7 +211,7 @@ RewardProgram.withdraw
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:36](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/SingleRewardProgram.ts#L36)
+[rewards/SingleRewardProgram.ts:36](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L36)
 
 ___
 
@@ -235,4 +235,4 @@ RewardProgram.withdrawReward
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:47](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/SingleRewardProgram.ts#L47)
+[rewards/SingleRewardProgram.ts:47](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/SingleRewardProgram.ts#L47)

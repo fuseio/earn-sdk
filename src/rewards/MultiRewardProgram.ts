@@ -11,6 +11,7 @@ import fetchTokenPrice from '../utils/fetchTokenPrice'
  * contract on the fuse network. The instance provides basic functionality
  * for interacting with the contract.
  *
+ * e.g with web3.js
  * ```typescript
  * import Web3 from 'web3'
  * import { MultiRewardProgram } from '@fuseio/rewards-sdk'
@@ -26,6 +27,18 @@ export default class MultiRewardProgram extends RewardProgram {
     super(stakingAddress, provider)
   }
 
+  /**
+    * Deposit the provided amount of the staking token into the staking contract
+    *
+    * ```typescript
+    * rewardProgram.deposit(
+    *   '1000000000000000000',
+    *   '0x'
+    * )
+    * ```
+    * @param amount the number of staking tokens to deposit
+    * @param account the account sending the transaction
+    */
   deposit (amount: string, account: string): Promise<any> {
     return ethTransaction(
       this.stakingAddress,
@@ -37,6 +50,18 @@ export default class MultiRewardProgram extends RewardProgram {
     )
   }
 
+  /**
+   * Withdraw the provided amount of the staking token from the staking contract
+   *
+   * ```typescript
+   * rewardProgram.withdraw(
+   *   '1000000000000000000',
+   *   '0x'
+   * )
+   * ```
+   * @param amount the number of staking tokens to withdraw
+   * @param account the account sending the transaction
+   */
   withdraw (amount: string, account: string): Promise<any> {
     return ethTransaction(
       this.stakingAddress,
@@ -48,6 +73,16 @@ export default class MultiRewardProgram extends RewardProgram {
     )
   }
 
+  /**
+   * Withdraw the rewards accured
+   *
+   * ```typescript
+   * rewardProgram.withdrawReward(
+   *   '0x'
+   * )
+   * ```
+   * @param account the account sending the transaction
+   */
   withdrawReward (account: string): Promise<any> {
     return ethTransaction(
       this.stakingAddress,
@@ -59,6 +94,18 @@ export default class MultiRewardProgram extends RewardProgram {
     )
   }
 
+  /**
+   * Get reward information for the provided address and rewardToken
+   *
+   * ```typescript
+   * rewardProgram.getStakerInfo(
+   *   '0x',
+   *   '0x00'
+   * )
+   * ```
+   * @param account address to fetch the reward information for
+   * @param rewardsToken rewardToken to fetch reward information for
+   */
   async getStakerInfo (account: string, rewardsToken?: string): Promise<any> {
     const totalStaked = await ethCall(
       this.stakingAddress,
@@ -83,6 +130,22 @@ export default class MultiRewardProgram extends RewardProgram {
     return [totalStaked, totalWithdrawn]
   }
 
+  /**
+   * Gets global reward stats for rewardProgram
+   *
+   * ```typescript
+   * rewardProgram.getStats(
+   *   '0x',
+   *   '0x',
+   *   122,
+   *   ['0x']
+   * )
+   * ```
+   * @param account the account to get stats for
+   * @param pairAddress the address of the staking token
+   * @param networkId the networkId where contract is deployed
+   * @param rewards array of rewards offerred
+   */
   async getStats (account: string, pairAddress: string, networkId: number, rewards: any[] = []): Promise<any> {
     const globalTotalStake = await ethCall(
       this.stakingAddress,
@@ -147,7 +210,7 @@ export default class MultiRewardProgram extends RewardProgram {
     }
   }
 
-  async getRewardsInfo (account: string, networkId: number, globalTotalStakeUSD: number, rewards: any[] = []) {
+  private async getRewardsInfo (account: string, networkId: number, globalTotalStakeUSD: number, rewards: any[] = []) {
     const rewardsInfo: any = []
 
     for (const reward of rewards) {

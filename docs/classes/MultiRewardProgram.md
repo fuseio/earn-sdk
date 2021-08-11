@@ -61,7 +61,7 @@ RewardProgram.constructor
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:25](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/MultiRewardProgram.ts#L25)
+[rewards/MultiRewardProgram.ts:25](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L25)
 
 ## Properties
 
@@ -85,7 +85,7 @@ RewardProgram.web3
 
 #### Defined in
 
-[rewards/RewardProgam.ts:4](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/RewardProgam.ts#L4)
+[rewards/RewardProgam.ts:4](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/RewardProgam.ts#L4)
 
 ## Methods
 
@@ -93,12 +93,21 @@ RewardProgram.web3
 
 ▸ **deposit**(`amount`, `account`): `Promise`<`any`\>
 
+Deposit the provided amount of the staking token into the staking contract
+
+```typescript
+rewardProgram.deposit(
+  '1000000000000000000',
+  '0x'
+)
+```
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `amount` | `string` |
-| `account` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `amount` | `string` | the number of staking tokens to deposit |
+| `account` | `string` | the account sending the transaction |
 
 #### Returns
 
@@ -110,13 +119,13 @@ RewardProgram.deposit
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:29](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/MultiRewardProgram.ts#L29)
+[rewards/MultiRewardProgram.ts:41](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L41)
 
 ___
 
 ### getRewardsInfo
 
-▸ **getRewardsInfo**(`account`, `networkId`, `globalTotalStakeUSD`, `rewards?`): `Promise`<`any`\>
+▸ `Private` **getRewardsInfo**(`account`, `networkId`, `globalTotalStakeUSD`, `rewards?`): `Promise`<`any`\>
 
 #### Parameters
 
@@ -133,7 +142,7 @@ ___
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:150](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/MultiRewardProgram.ts#L150)
+[rewards/MultiRewardProgram.ts:212](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L212)
 
 ___
 
@@ -141,12 +150,21 @@ ___
 
 ▸ **getStakerInfo**(`account`, `rewardsToken?`): `Promise`<`any`\>
 
+Get reward information for the provided address and rewardToken
+
+```typescript
+rewardProgram.getStakerInfo(
+  '0x',
+  '0x00'
+)
+```
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `account` | `string` |
-| `rewardsToken?` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `account` | `string` | address to fetch the reward information for |
+| `rewardsToken?` | `string` | rewardToken to fetch reward information for |
 
 #### Returns
 
@@ -158,7 +176,7 @@ RewardProgram.getStakerInfo
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:62](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/MultiRewardProgram.ts#L62)
+[rewards/MultiRewardProgram.ts:108](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L108)
 
 ___
 
@@ -182,7 +200,7 @@ RewardProgram.getStakingTimes
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:131](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/MultiRewardProgram.ts#L131)
+[rewards/MultiRewardProgram.ts:193](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L193)
 
 ___
 
@@ -190,14 +208,25 @@ ___
 
 ▸ **getStats**(`account`, `pairAddress`, `networkId`, `rewards?`): `Promise`<`any`\>
 
+Gets global reward stats for rewardProgram
+
+```typescript
+rewardProgram.getStats(
+  '0x',
+  '0x',
+  122,
+  ['0x']
+)
+```
+
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `account` | `string` | `undefined` |
-| `pairAddress` | `string` | `undefined` |
-| `networkId` | `number` | `undefined` |
-| `rewards` | `any`[] | `[]` |
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `account` | `string` | `undefined` | the account to get stats for |
+| `pairAddress` | `string` | `undefined` | the address of the staking token |
+| `networkId` | `number` | `undefined` | the networkId where contract is deployed |
+| `rewards` | `any`[] | `[]` | array of rewards offerred |
 
 #### Returns
 
@@ -209,7 +238,7 @@ RewardProgram.getStats
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:86](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/MultiRewardProgram.ts#L86)
+[rewards/MultiRewardProgram.ts:148](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L148)
 
 ___
 
@@ -217,12 +246,21 @@ ___
 
 ▸ **withdraw**(`amount`, `account`): `Promise`<`any`\>
 
+Withdraw the provided amount of the staking token from the staking contract
+
+```typescript
+rewardProgram.withdraw(
+  '1000000000000000000',
+  '0x'
+)
+```
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `amount` | `string` |
-| `account` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `amount` | `string` | the number of staking tokens to withdraw |
+| `account` | `string` | the account sending the transaction |
 
 #### Returns
 
@@ -234,7 +272,7 @@ RewardProgram.withdraw
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:40](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/MultiRewardProgram.ts#L40)
+[rewards/MultiRewardProgram.ts:64](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L64)
 
 ___
 
@@ -242,11 +280,19 @@ ___
 
 ▸ **withdrawReward**(`account`): `Promise`<`any`\>
 
+Withdraw the rewards accured
+
+```typescript
+rewardProgram.withdrawReward(
+  '0x'
+)
+```
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `account` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `account` | `string` | the account sending the transaction |
 
 #### Returns
 
@@ -258,4 +304,4 @@ RewardProgram.withdrawReward
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:51](https://github.com/fuseio/rewards-sdk/blob/af6d174/src/rewards/MultiRewardProgram.ts#L51)
+[rewards/MultiRewardProgram.ts:85](https://github.com/fuseio/rewards-sdk/blob/139fe1a/src/rewards/MultiRewardProgram.ts#L85)
