@@ -6,6 +6,20 @@ import fetchPairInfo from '../utils/fetchPairInfo'
 import { calculateApy, calculateReserves, weiToNumber } from '../utils'
 import fetchTokenPrice from '../utils/fetchTokenPrice'
 
+/**
+ * Create a new MultiRewardProgram which represents a multi reward
+ * contract on the fuse network. The instance provides basic functionality
+ * for interacting with the contract.
+ *
+ * ```typescript
+ * import Web3 from 'web3'
+ * import { MultiRewardProgram } from '@fuseio/rewards-sdk'
+ *
+ * const stakingAddress = '0x'
+ * const web3Provider = new Web3('https://rpc.fuse.io')
+ * const rewardProgram = new MultiRewardProgram(stakingAddress, web3Provider)
+ * ```
+ */
 export default class MultiRewardProgram extends RewardProgram {
   // eslint-disable-next-line no-useless-constructor
   constructor (stakingAddress: string, provider: any) {
