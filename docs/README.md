@@ -1,3 +1,5 @@
+@fuseio/rewards-sdk / [Exports](modules.md)
+
 # Earn SDK
 Earn SDK is a client and server SDK for building applications that can interact with various
 earning functionality on the Fuse network. 
