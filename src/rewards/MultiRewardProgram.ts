@@ -14,7 +14,7 @@ import fetchTokenPrice from '../utils/fetchTokenPrice'
  * e.g with web3.js
  * ```typescript
  * import Web3 from 'web3'
- * import { MultiRewardProgram } from '@fuseio/rewards-sdk'
+ * import { MultiRewardProgram } from '@fuseio/earn-sdk'
  *
  * const stakingAddress = '0x'
  * const web3Provider = new Web3('https://rpc.fuse.io')
@@ -176,7 +176,7 @@ export default class MultiRewardProgram extends RewardProgram {
     const totalStakedUSD = weiToNumber(userTotalStaked) * pairPrice
     const globalTotalStakeUSD = weiToNumber(globalTotalStake) * pairPrice
 
-    const rewardsInfo = await this.getRewardsInfo(account, networkId, globalTotalStakeUSD, rewards)
+    const rewardsInfo = await this.getRewardsInfo(account, networkId, globalTotalStake, globalTotalStakeUSD, rewards)
 
     return {
       globalTotalStake,
@@ -214,7 +214,20 @@ export default class MultiRewardProgram extends RewardProgram {
     }
   }
 
-  private async getRewardsInfo (account: string, networkId: number, globalTotalStakeUSD: number, rewards: any[] = []) {
+  private async getRewardRate (reward: string): Promise<any> {
+    const rewardData = await ethCall(
+      this.stakingAddress,
+      'rewardData',
+      ABI,
+      this.web3,
+      [reward]
+    )
+
+    const rewardRate = rewardData.rewardRate
+    return rewardRate
+  }
+
+  private async getRewardsInfo (account: string, networkId: number, globalTotalStake: string, globalTotalStakeUSD: number, rewards: any[] = []) {
     const rewardsInfo: any = []
 
     for (const reward of rewards) {
@@ -241,18 +254,11 @@ export default class MultiRewardProgram extends RewardProgram {
         [reward]
       )
 
-      const rewardPerToken = await ethCall(
-        this.stakingAddress,
-        'rewardPerToken',
-        ABI,
-        this.web3,
-        [reward]
-      )
-
+      const { duration } = await this.getStakingTimes(reward)
+      const rewardRate = await this.getRewardRate(reward)
       const rewardPrice = await fetchTokenPrice(reward, networkId)
       const totalRewardsInUSD = weiToNumber(totalRewards, rewardTokenDecimals) * rewardPrice
 
-      const { duration } = await this.getStakingTimes(reward)
       const apyPercent = calculateApy(
         totalRewardsInUSD,
         globalTotalStakeUSD,
@@ -264,7 +270,7 @@ export default class MultiRewardProgram extends RewardProgram {
         totalRewardsInUSD,
         accuruedRewards,
         apyPercent,
-        rewardPerToken
+        rewardRate
       })
     }
 

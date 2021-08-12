@@ -24,7 +24,7 @@ interface StakingTimes {
  * e.g with web3.js
  * ```typescript
  * import Web3 from 'web3'
- * import { SingleRewardProgram } from '@fuseio/rewards-sdk'
+ * import { SingleRewardProgram } from '@fuseio/earn-sdk'
  *
  * const stakingAddress = '0x'
  * const web3Provider = new Web3('https://rpc.fuse.io')
