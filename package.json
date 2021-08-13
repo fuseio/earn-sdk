@@ -1,5 +1,5 @@
 {
-  "name": "@fuseio/rewards-sdk",
+  "name": "@fuseio/earn-sdk",
   "version": "0.1.10",
   "description": "",
   "main": "dist/index.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fuseio/rewards-sdk.git"
+    "url": "git+https://github.com/fuseio/earn-sdk.git"
   },
   "keywords": [
     "fuseio",
@@ -23,9 +23,9 @@
   "author": "Mulenga Bowa",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fuseio/rewards-sdk/issues"
+    "url": "https://github.com/fuseio/earn-sdk/issues"
   },
-  "homepage": "https://github.com/fuseio/rewards-sdk#readme",
+  "homepage": "https://github.com/fuseio/earn-sdk#readme",
   "dependencies": {
     "@apollo/client": "^3.3.21",
     "bignumber.js": "^9.0.1",
