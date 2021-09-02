@@ -6,6 +6,7 @@ earning functionality on the Fuse network.
 - [Getting Started](#getting-started)
     - [Requirements](#requirements)
     - [Installation](#installation)
+    - [Classes](#Classes)
 - [Development](#development)
     - [Dependencies](#dependencies)
     - [Test](#test)
@@ -25,6 +26,10 @@ or
 ```bash
 yarn add @fuseio/earn-sdk
 ```
+
+### Classes
+The Earn sdk exposes [SingleRewardProgram](https://github.com/fuseio/earn-sdk/blob/master/docs/classes/SingleRewardProgram.md) and [MultiRewardProgram](https://github.com/fuseio/earn-sdk/blob/master/docs/classes/MultiRewardProgram.md) classes which can be used to interact with the single and multi
+reward programs.
 
 ## Development
 The steps needed to get started started developing the SDK are provided below

@@ -1,6 +1,6 @@
-[@fuseio/rewards-sdk](README.md) / Exports
+[@fuseio/earn-sdk](README.md) / Exports
 
-# @fuseio/rewards-sdk
+# @fuseio/earn-sdk
 
 ## Table of contents
 

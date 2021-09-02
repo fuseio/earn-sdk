@@ -1,4 +1,4 @@
-[@fuseio/rewards-sdk](../README.md) / [Exports](../modules.md) / MultiRewardProgram
+[@fuseio/earn-sdk](../README.md) / [Exports](../modules.md) / MultiRewardProgram
 
 # Class: MultiRewardProgram
 
@@ -9,7 +9,7 @@ for interacting with the contract.
 e.g with web3.js
 ```typescript
 import Web3 from 'web3'
-import { MultiRewardProgram } from '@fuseio/rewards-sdk'
+import { MultiRewardProgram } from '@fuseio/earn-sdk'
 
 const stakingAddress = '0x'
 const web3Provider = new Web3('https://rpc.fuse.io')
@@ -36,6 +36,7 @@ const rewardProgram = new MultiRewardProgram(stakingAddress, web3Provider)
 ### Methods
 
 - [deposit](MultiRewardProgram.md#deposit)
+- [getRewardRate](MultiRewardProgram.md#getrewardrate)
 - [getRewardsInfo](MultiRewardProgram.md#getrewardsinfo)
 - [getStakerInfo](MultiRewardProgram.md#getstakerinfo)
 - [getStakingTimes](MultiRewardProgram.md#getstakingtimes)
@@ -62,7 +63,7 @@ RewardProgram.constructor
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:26](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L26)
+[rewards/MultiRewardProgram.ts:26](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/MultiRewardProgram.ts#L26)
 
 ## Properties
 
@@ -86,7 +87,7 @@ RewardProgram.web3
 
 #### Defined in
 
-[rewards/RewardProgam.ts:4](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/RewardProgam.ts#L4)
+[rewards/RewardProgam.ts:4](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/RewardProgam.ts#L4)
 
 ## Methods
 
@@ -120,13 +121,33 @@ RewardProgram.deposit
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:42](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L42)
+[rewards/MultiRewardProgram.ts:42](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/MultiRewardProgram.ts#L42)
+
+___
+
+### getRewardRate
+
+▸ `Private` **getRewardRate**(`reward`): `Promise`<`any`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `reward` | `string` |
+
+#### Returns
+
+`Promise`<`any`\>
+
+#### Defined in
+
+[rewards/MultiRewardProgram.ts:217](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/MultiRewardProgram.ts#L217)
 
 ___
 
 ### getRewardsInfo
 
-▸ `Private` **getRewardsInfo**(`account`, `networkId`, `globalTotalStakeUSD`, `rewards?`): `Promise`<`any`\>
+▸ `Private` **getRewardsInfo**(`account`, `networkId`, `globalTotalStake`, `globalTotalStakeUSD`, `rewards?`): `Promise`<`any`\>
 
 #### Parameters
 
@@ -134,6 +155,7 @@ ___
 | :------ | :------ | :------ |
 | `account` | `string` | `undefined` |
 | `networkId` | `number` | `undefined` |
+| `globalTotalStake` | `string` | `undefined` |
 | `globalTotalStakeUSD` | `number` | `undefined` |
 | `rewards` | `any`[] | `[]` |
 
@@ -143,7 +165,7 @@ ___
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:217](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L217)
+[rewards/MultiRewardProgram.ts:230](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/MultiRewardProgram.ts#L230)
 
 ___
 
@@ -177,7 +199,7 @@ RewardProgram.getStakerInfo
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:109](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L109)
+[rewards/MultiRewardProgram.ts:109](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/MultiRewardProgram.ts#L109)
 
 ___
 
@@ -203,7 +225,7 @@ RewardProgram.getStakingTimes
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:198](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L198)
+[rewards/MultiRewardProgram.ts:198](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/MultiRewardProgram.ts#L198)
 
 ___
 
@@ -241,7 +263,7 @@ RewardProgram.getStats
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:149](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L149)
+[rewards/MultiRewardProgram.ts:149](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/MultiRewardProgram.ts#L149)
 
 ___
 
@@ -275,7 +297,7 @@ RewardProgram.withdraw
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:65](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L65)
+[rewards/MultiRewardProgram.ts:65](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/MultiRewardProgram.ts#L65)
 
 ___
 
@@ -307,4 +329,4 @@ RewardProgram.withdrawReward
 
 #### Defined in
 
-[rewards/MultiRewardProgram.ts:86](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/MultiRewardProgram.ts#L86)
+[rewards/MultiRewardProgram.ts:86](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/MultiRewardProgram.ts#L86)

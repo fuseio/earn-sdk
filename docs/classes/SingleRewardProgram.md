@@ -1,4 +1,4 @@
-[@fuseio/rewards-sdk](../README.md) / [Exports](../modules.md) / SingleRewardProgram
+[@fuseio/earn-sdk](../README.md) / [Exports](../modules.md) / SingleRewardProgram
 
 # Class: SingleRewardProgram
 
@@ -9,7 +9,7 @@ for interacting with the contract.
 e.g with web3.js
 ```typescript
 import Web3 from 'web3'
-import { SingleRewardProgram } from '@fuseio/rewards-sdk'
+import { SingleRewardProgram } from '@fuseio/earn-sdk'
 
 const stakingAddress = '0x'
 const web3Provider = new Web3('https://rpc.fuse.io')
@@ -62,7 +62,7 @@ RewardProgram.constructor
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:36](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L36)
+[rewards/SingleRewardProgram.ts:36](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/SingleRewardProgram.ts#L36)
 
 ## Properties
 
@@ -86,7 +86,7 @@ RewardProgram.web3
 
 #### Defined in
 
-[rewards/RewardProgam.ts:4](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/RewardProgam.ts#L4)
+[rewards/RewardProgam.ts:4](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/RewardProgam.ts#L4)
 
 ## Methods
 
@@ -120,7 +120,7 @@ RewardProgram.deposit
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:52](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L52)
+[rewards/SingleRewardProgram.ts:52](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/SingleRewardProgram.ts#L52)
 
 ___
 
@@ -153,7 +153,7 @@ RewardProgram.getStakerInfo
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:118](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L118)
+[rewards/SingleRewardProgram.ts:118](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/SingleRewardProgram.ts#L118)
 
 ___
 
@@ -173,7 +173,7 @@ RewardProgram.getStakingTimes
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:143](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L143)
+[rewards/SingleRewardProgram.ts:143](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/SingleRewardProgram.ts#L143)
 
 ___
 
@@ -211,7 +211,7 @@ RewardProgram.getStats
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:180](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L180)
+[rewards/SingleRewardProgram.ts:180](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/SingleRewardProgram.ts#L180)
 
 ___
 
@@ -231,7 +231,7 @@ ___
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:129](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L129)
+[rewards/SingleRewardProgram.ts:129](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/SingleRewardProgram.ts#L129)
 
 ___
 
@@ -265,7 +265,7 @@ RewardProgram.withdraw
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:75](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L75)
+[rewards/SingleRewardProgram.ts:75](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/SingleRewardProgram.ts#L75)
 
 ___
 
@@ -297,4 +297,4 @@ RewardProgram.withdrawReward
 
 #### Defined in
 
-[rewards/SingleRewardProgram.ts:96](https://github.com/fuseio/rewards-sdk/blob/cf6f418/src/rewards/SingleRewardProgram.ts#L96)
+[rewards/SingleRewardProgram.ts:96](https://github.com/fuseio/earn-sdk/blob/fe50e4d/src/rewards/SingleRewardProgram.ts#L96)
