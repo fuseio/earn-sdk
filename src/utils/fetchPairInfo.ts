@@ -1,48 +1,78 @@
 import { NetworkId } from '../constants'
-import { fuseswapClient, pancakeswapClient, uniswapClient } from '../graphql'
+import PAIR_ABI from '../constants/abi/Pair.json'
+import { fuseswapClient, uniswapClient } from '../graphql'
 import { getPairInfoQuery } from '../graphql/query'
+import { weiToNumber } from '.'
+import fetchCoingeckoTokenPrice, { getAssetPlatform } from './fetchCoingeckoTokenPrice'
+import fetchTokenInfo from './fetchTokenInfo'
+import { ethCall } from './eth'
 
-function fetchPairInfoUniswap (address: string) {
-  return uniswapClient.query({
-    query: getPairInfoQuery(address)
-  })
-}
+async function fetchPairInfoContract (address: string, networkId: number, web3: any) {
+  const assetPlatform = getAssetPlatform(networkId)
+  if (!assetPlatform) return
 
-function fetchPairInfoFuseswap (address: string) {
-  return fuseswapClient.query({
-    query: getPairInfoQuery(address)
-  })
-}
+  const token0Address = await ethCall(address, 'token0', PAIR_ABI, web3)
+  const token0 = await fetchTokenInfo(token0Address, web3)
+  const token0Price = await fetchCoingeckoTokenPrice(token0Address, assetPlatform)
 
-function fetchPairInfoPancakeswap (address: string) {
-  return pancakeswapClient.query({
-    query: getPairInfoQuery(address)
-  })
-}
+  const token1Address = await ethCall(address, 'token1', PAIR_ABI, web3)
+  const token1 = await fetchTokenInfo(token1Address, web3)
+  const token1Price = await fetchCoingeckoTokenPrice(token1Address, assetPlatform)
 
-export default async function fetchPairInfo (address: string, networkId: number): Promise<any> {
-  let result
+  const reserves = await ethCall(address, 'getReserves', PAIR_ABI, web3)
+  const totalReserve0 = weiToNumber(reserves[0])
+  const totalReserve1 = weiToNumber(reserves[1])
 
-  switch (networkId as NetworkId) {
-    case NetworkId.ETHEREUM:
-      result = await fetchPairInfoUniswap(address)
-      break
-    case NetworkId.BSC:
-      result = await fetchPairInfoPancakeswap(address)
-      break
-    case NetworkId.FUSE:
-      result = await fetchPairInfoFuseswap(address)
-      break
-  }
-
-  const pair = result?.data?.pair
+  const totalSupply = await ethCall(address, 'totalSupply', PAIR_ABI, web3)
 
   return {
-    reserveUSD: pair?.reserveUSD,
-    totalSupply: pair?.totalSupply,
-    token0: pair?.token0,
-    token1: pair?.token1,
-    totalReserve0: pair?.reserve0,
-    totalReserve1: pair?.reserve1
+    totalReserve0,
+    totalReserve1,
+    token0,
+    token1,
+    totalSupply: weiToNumber(totalSupply),
+    reserveUSD: totalReserve0 * token0Price + totalReserve1 * token1Price
+  }
+}
+
+async function fetchPairInfoUniswap (address: string) {
+  const result = await uniswapClient.query({
+    query: getPairInfoQuery(address)
+  })
+  return {
+    reserveUSD: result?.data?.pair?.reserveUSD,
+    totalSupply: result?.data?.pair?.totalSupply,
+    token0: result?.data?.pair?.token0,
+    token1: result?.data?.pair?.token1,
+    totalReserve0: result?.data?.pair?.reserve0,
+    totalReserve1: result?.data?.pair?.reserve1
+  }
+}
+
+async function fetchPairInfoFuseswap (address: string) {
+  const result = await fuseswapClient.query({
+    query: getPairInfoQuery(address)
+  })
+  return {
+    reserveUSD: result?.data?.pair?.reserveUSD,
+    totalSupply: result?.data?.pair?.totalSupply,
+    token0: result?.data?.pair?.token0,
+    token1: result?.data?.pair?.token1,
+    totalReserve0: result?.data?.pair?.reserve0,
+    totalReserve1: result?.data?.pair?.reserve1
+  }
+}
+
+export default async function fetchPairInfo (address: string, networkId: number, web3: any): Promise<any> {
+  switch (networkId as NetworkId) {
+    case NetworkId.ETHEREUM: {
+      return await fetchPairInfoUniswap(address)
+    }
+    case NetworkId.BSC: {
+      return await fetchPairInfoContract(address, networkId, web3)
+    }
+    case NetworkId.FUSE: {
+      return await fetchPairInfoFuseswap(address)
+    }
   }
 }

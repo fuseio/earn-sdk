@@ -1,6 +1,7 @@
 import { NetworkId } from '../constants'
-import { fuseswapClient, pancakeswapClient, uniswapClient } from '../graphql'
-import { getTokenPriceQuery, getTokenPriceQueryPancake } from '../graphql/query'
+import { fuseswapClient, uniswapClient } from '../graphql'
+import { getTokenPriceQuery } from '../graphql/query'
+import fetchCoingeckoTokenPrice, { getAssetPlatform } from './fetchCoingeckoTokenPrice'
 
 function fetchTokenPriceUniswap (address: string) {
   return uniswapClient.query({
@@ -8,39 +9,27 @@ function fetchTokenPriceUniswap (address: string) {
   })
 }
 
-function fetchPairInfoFuseswap (address: string) {
+function fetchTokenPriceFuseswap (address: string) {
   return fuseswapClient.query({
     query: getTokenPriceQuery(address)
   })
 }
 
-function fetchPairInfoPancakeswap (address: string) {
-  return pancakeswapClient.query({
-    query: getTokenPriceQueryPancake(address)
-  })
-}
-
 export default async function fetchTokenPrice (address: string | undefined, networkId: number): Promise<any> {
-  if (!address) return
+  const assetPlatform = getAssetPlatform(networkId)
+  if (!address || !assetPlatform) return
 
-  let result, derived: string, price: string
   switch (networkId as NetworkId) {
-    case NetworkId.ETHEREUM:
-      derived = 'derivedETH'
-      price = 'ethPrice'
-      result = await fetchTokenPriceUniswap(address)
-      break
-    case NetworkId.BSC:
-      derived = 'derivedBNB'
-      price = 'bnbPrice'
-      result = await fetchPairInfoPancakeswap(address)
-      break
-    case NetworkId.FUSE:
-      derived = 'derivedETH'
-      price = 'ethPrice'
-      result = await fetchPairInfoFuseswap(address)
-      break
+    case NetworkId.ETHEREUM: {
+      const result = await fetchTokenPriceUniswap(address)
+      return result?.data?.token?.derivedETH * result?.data?.bundle?.ethPrice
+    }
+    case NetworkId.BSC: {
+      return await fetchCoingeckoTokenPrice(address, assetPlatform)
+    }
+    case NetworkId.FUSE: {
+      const result = await fetchTokenPriceFuseswap(address)
+      return result?.data?.token?.derivedETH * result?.data?.bundle?.ethPrice
+    }
   }
-
-  return result?.data?.token?.[derived] * result?.data?.bundle?.[price]
 }

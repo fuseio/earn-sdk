@@ -195,7 +195,7 @@ export default class SingleRewardProgram extends RewardProgram {
       token1,
       totalReserve0,
       totalReserve1
-    } = await fetchPairInfo(pairAddress, networkId)
+    } = await fetchPairInfo(pairAddress, networkId, this.web3)
 
     const [reserve0, reserve1] = calculateReserves(
       globalTotalStake,
