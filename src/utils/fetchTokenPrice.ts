@@ -16,8 +16,7 @@ function fetchTokenPriceFuseswap (address: string) {
 }
 
 export default async function fetchTokenPrice (address: string | undefined, networkId: number): Promise<any> {
-  const assetPlatform = getAssetPlatform(networkId)
-  if (!address || !assetPlatform) return
+  if (!address) return
 
   switch (networkId as NetworkId) {
     case NetworkId.ETHEREUM: {
