@@ -16,8 +16,7 @@ function fetchTokenPriceFuseswap (address: string) {
 }
 
 export default async function fetchTokenPrice (address: string | undefined, networkId: number): Promise<any> {
-  const assetPlatform = getAssetPlatform(networkId)
-  if (!address || !assetPlatform) return
+  if (!address) return
 
   switch (networkId as NetworkId) {
     case NetworkId.ETHEREUM: {
@@ -25,7 +24,7 @@ export default async function fetchTokenPrice (address: string | undefined, netw
       return result?.data?.token?.derivedETH * result?.data?.bundle?.ethPrice
     }
     case NetworkId.BSC: {
-      return await fetchCoingeckoTokenPrice(address, assetPlatform)
+      return await fetchCoingeckoTokenPrice(address, getAssetPlatform(networkId))
     }
     case NetworkId.FUSE: {
       const result = await fetchTokenPriceFuseswap(address)

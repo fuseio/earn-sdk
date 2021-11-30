@@ -10,7 +10,7 @@ export function getAssetPlatform (networkId) {
   }
 }
 
-export default async function fetchCoingeckoTokenPrice (address: string, assetPlatform: string, vsCurrencies = 'usd') {
+export default async function fetchCoingeckoTokenPrice (address: string, assetPlatform?: string, vsCurrencies = 'usd') {
   const response = await fetch(`https://api.coingecko.com/api/v3/simple/token_price/${assetPlatform}?contract_addresses=${address}&vs_currencies=${vsCurrencies}`)
   const json = await response.json()
   return json[address.toLowerCase()][vsCurrencies]
