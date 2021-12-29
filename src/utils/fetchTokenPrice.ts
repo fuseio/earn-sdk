@@ -1,17 +1,17 @@
 import { NetworkId } from '../constants'
 import { fuseswapClient, uniswapClient } from '../graphql'
-import { getTokenPriceQuery } from '../graphql/query'
+import { tokenPriceQuery } from '../graphql/query'
 import fetchCoingeckoTokenPrice, { getAssetPlatform } from './fetchCoingeckoTokenPrice'
 
 function fetchTokenPriceUniswap (address: string) {
   return uniswapClient.query({
-    query: getTokenPriceQuery(address)
+    query: tokenPriceQuery(address)
   })
 }
 
 function fetchTokenPriceFuseswap (address: string) {
   return fuseswapClient.query({
-    query: getTokenPriceQuery(address)
+    query: tokenPriceQuery(address)
   })
 }
 

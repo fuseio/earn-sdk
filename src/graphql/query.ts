@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-export function getPairInfoQuery (address: string) {
+export function pairQuery (address: string) {
   return gql`
       {
         pair(id: "${address.toLowerCase()}") {
@@ -23,7 +23,7 @@ export function getPairInfoQuery (address: string) {
     `
 }
 
-export function getTokenPriceQuery (address: string) {
+export function tokenPriceQuery (address: string) {
   return gql`
         {
             token(id: "${address.toLowerCase()}") {
@@ -36,14 +36,21 @@ export function getTokenPriceQuery (address: string) {
     `
 }
 
-export function getTokenPriceQueryPancake (address: string) {
+export function poolQuery (pid: number, account: string) {
   return gql`
     {
-      token(id: "${address.toLowerCase()}") {
-        derivedBNB
-      }
-      bundle(id: "1") {
-        bnbPrice
+      users(where: { address: "${account.toLowerCase()}", pool: "${pid}" }) {
+        id
+        pool {
+          owner {
+            voltPerSec
+            totalAllocPoint
+          }
+          balance
+          voltHarvested
+          allocPoint
+        }
+        amount
       }
     }
   `

@@ -1,4 +1,7 @@
 import { BigNumber } from 'bignumber.js'
+import { MASTERCHEF_V2_ADDRESS, MASTERCHEF_V3_ADDRESS } from '../constants'
+import { masterChefV2Client, masterChefV3Client } from '../graphql'
+import { Chef } from '../rewards/ChefRewardProgram'
 
 export function weiToNumber (value: string | BigNumber, decimals = 18): number {
   return new BigNumber(value).div(10 ** decimals).toNumber()
@@ -32,4 +35,20 @@ export function calculateApy (
 ) {
   const durationInDays = duration / (3600 * 24)
   return (totalRewardsInUSD / globalTotalStakeUSD) * (365 / durationInDays)
+}
+
+export function getChef (address: string) {
+  if (address.toLowerCase() === MASTERCHEF_V2_ADDRESS.toLowerCase()) {
+    return Chef.CHEF_V2
+  } else if (address.toLowerCase() === MASTERCHEF_V3_ADDRESS.toLowerCase()) {
+    return Chef.CHEF_V3
+  }
+}
+
+export function getChefSubgraph (chef: Chef) {
+  if (chef === Chef.CHEF_V2) {
+    return masterChefV2Client
+  } else if (chef === Chef.CHEF_V3) {
+    return masterChefV3Client
+  }
 }
