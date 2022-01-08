@@ -1,15 +1,27 @@
 import { Chef } from '../rewards/ChefRewardProgram'
 import { getChefSubgraph } from '../utils'
-import { poolQuery } from './query'
+import { poolQuery, userQuery } from './query'
 
-export async function getChefPool (pid?: number, account?: string, chef?: Chef) {
-  if (!pid || !account || typeof chef === 'undefined') return null
+export async function getChefPool (pid?: number, chef?: Chef) {
+  if (typeof pid === 'undefined' || typeof chef === 'undefined') return null
 
   const subgraph = getChefSubgraph(chef)
 
   const result = await subgraph?.query({
-    query: poolQuery(pid, account)
+    query: poolQuery(pid)
   })
 
-  return result?.data?.users?.[0] ? result?.data?.users?.[0] : null
+  return result?.data?.pool ? result?.data?.pool : null
+}
+
+export async function getChefUser (pid?: number, account?: string, chef?: Chef) {
+  if (typeof pid === 'undefined' || typeof chef === 'undefined' || !account) return null
+
+  const subgraph = getChefSubgraph(chef)
+
+  const result = await subgraph?.query({
+    query: userQuery(pid, account)
+  })
+
+  return result?.data?.user ? result?.data?.user : null
 }

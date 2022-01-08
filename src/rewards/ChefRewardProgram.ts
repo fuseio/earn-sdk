@@ -3,8 +3,8 @@ import ABI from '../constants/abi/MasterChef.json'
 import { calculateReserves, getChef, weiToNumber } from '../utils'
 import { ethCall, ethTransaction } from '../utils/eth'
 import fetchPairInfo from '../utils/fetchPairInfo'
-import fetchTokenPrice from '../utils/fetchTokenPrice'
-import { getChefPool } from '../graphql/fetcher'
+// import fetchTokenPrice from '../utils/fetchTokenPrice'
+import { getChefPool, getChefUser } from '../graphql/fetcher'
 
 export enum Chef {
     CHEF_V2,
@@ -62,18 +62,19 @@ export default class ChefRewardProgram extends RewardProgram {
         [pid, account]
       )
 
-      const userPool = await getChefPool(pid, account, this.chef)
+      const user = await getChefUser(pid, account, this.chef)
 
-      return [userInfo[0], userPool?.pool?.voltHarvested]
+      return [userInfo[0], user?.voltHarvested]
     }
 
     async getStats (account: string, pairAddress: string, networkId: number, pid?: number): Promise<any> {
-      const userPool = await getChefPool(pid, account, this.chef)
-      const globalTotalStake = userPool?.pool?.balance
-      const userTotalStaked = weiToNumber(userPool?.amount).toString()
+      const pool = await getChefPool(pid, this.chef)
+      const user = await getChefUser(pid, account, this.chef)
+      const globalTotalStake = pool?.balance
+      const userTotalStaked = weiToNumber(user?.amount).toString()
 
       const {
-        reserveUSD,
+        // reserveUSD,
         totalSupply,
         token0,
         token1,
@@ -88,7 +89,7 @@ export default class ChefRewardProgram extends RewardProgram {
         totalReserve1
       )
 
-      const pairPrice = reserveUSD / totalSupply
+      const pairPrice = 0.9
       const totalStakedUSD = weiToNumber(userTotalStaked) * pairPrice
       const globalTotalStakeUSD = weiToNumber(globalTotalStake) * pairPrice
 
@@ -101,30 +102,29 @@ export default class ChefRewardProgram extends RewardProgram {
           [pid, account]
         )
 
-        const voltAddress = await ethCall(
-          this.stakingAddress,
-          'volt',
-          ABI,
-          this.web3,
-          []
-        )
+        // const voltAddress = await ethCall(
+        //   this.stakingAddress,
+        //   'volt',
+        //   ABI,
+        //   this.web3,
+        //   []
+        // )
 
-        const voltPerSec = (userPool?.pool?.owner?.voltPerSec / 1e18)
-        const voltPrice = await fetchTokenPrice(voltAddress, networkId)
+        const voltPerSec = (pool?.owner?.voltPerSec / 1e18)
+        // const voltPrice = await fetchTokenPrice(voltAddress, networkId)
+        const voltPrice = 0.002
 
-        const rewardPerSec = (userPool?.pool?.allocPoint / userPool?.pool?.owner?.totalAllocPoint) * voltPerSec
-        const rewardPerDay = rewardPerSec * 3600 * 24 * 30 * 12
+        const rewardPerSec = (pool?.allocPoint / pool?.owner?.totalAllocPoint) * voltPerSec
+        const rewardPerDay = rewardPerSec * 3600 * 24
         const rewardPerDayUSD = rewardPerDay * voltPrice
 
         const roiPerSec = (rewardPerSec * voltPrice) / globalTotalStakeUSD
         const aprPercent = roiPerSec * 12 * 30 * 24 * 3600
 
-        const accuruedRewards = weiToNumber(pendingTokens[0])
-
         return [{
           rewardPerDay,
           rewardPerDayUSD,
-          accuruedRewards,
+          accuruedRewards: pendingTokens[0],
           apyPercent: aprPercent,
           rewardRate: 0
         }]

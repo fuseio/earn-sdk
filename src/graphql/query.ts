@@ -36,21 +36,28 @@ export function tokenPriceQuery (address: string) {
     `
 }
 
-export function poolQuery (pid: number, account: string) {
+export function userQuery (pid: number, account: string) {
   return gql`
     {
-      users(where: { address: "${account.toLowerCase()}", pool: "${pid}" }) {
+      user(id: "${pid}-${account.toLowerCase()}") {
         id
-        pool {
-          owner {
-            voltPerSec
-            totalAllocPoint
-          }
-          balance
-          voltHarvested
-          allocPoint
-        }
         amount
+        voltHarvested
+      }
+    }
+  `
+}
+
+export function poolQuery (pid: number) {
+  return gql`
+    {
+      pool(id: "${pid}") {
+        balance
+        allocPoint
+        owner {
+          voltPerSec
+          totalAllocPoint
+        }
       }
     }
   `
