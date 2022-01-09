@@ -43,8 +43,7 @@ export default abstract class RewardProgram {
   abstract getStats(
     account: string,
     pairAddress: string,
-    networkId: number,
-    rewards?: string[],
+    networkId: number
   ): Promise<any>
 
   /**

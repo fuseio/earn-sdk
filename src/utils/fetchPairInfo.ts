@@ -1,7 +1,7 @@
 import { NetworkId } from '../constants'
 import PAIR_ABI from '../constants/abi/Pair.json'
 import { fuseswapClient, uniswapClient } from '../graphql'
-import { getPairInfoQuery } from '../graphql/query'
+import { pairQuery } from '../graphql/query'
 import { weiToNumber } from '.'
 import fetchCoingeckoTokenPrice, { getAssetPlatform } from './fetchCoingeckoTokenPrice'
 import fetchTokenInfo from './fetchTokenInfo'
@@ -37,7 +37,7 @@ async function fetchPairInfoContract (address: string, networkId: number, web3: 
 
 async function fetchPairInfoUniswap (address: string) {
   const result = await uniswapClient.query({
-    query: getPairInfoQuery(address)
+    query: pairQuery(address)
   })
   return {
     reserveUSD: result?.data?.pair?.reserveUSD,
@@ -51,7 +51,7 @@ async function fetchPairInfoUniswap (address: string) {
 
 async function fetchPairInfoFuseswap (address: string) {
   const result = await fuseswapClient.query({
-    query: getPairInfoQuery(address)
+    query: pairQuery(address)
   })
   return {
     reserveUSD: result?.data?.pair?.reserveUSD,
