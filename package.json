@@ -6,6 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint .",
+    "preinstall": "yarn build",
     "prepublish": "yarn build",
     "lint-fix": "eslint . --fix",
     "build": "tsc",
