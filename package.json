@@ -1,12 +1,11 @@
 {
   "name": "@fuseio/earn-sdk",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint .",
-    "preinstall": "yarn build",
     "prepublish": "yarn build",
     "lint-fix": "eslint . --fix",
     "build": "tsc",
