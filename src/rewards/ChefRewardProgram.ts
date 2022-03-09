@@ -3,8 +3,9 @@ import ABI from '../constants/abi/MasterChef.json'
 import { calculateReserves, getChef, weiToNumber } from '../utils'
 import { ethCall, ethTransaction } from '../utils/eth'
 import fetchPairInfo from '../utils/fetchPairInfo'
-// import fetchTokenPrice from '../utils/fetchTokenPrice'
+import fetchTokenPrice from '../utils/fetchTokenPrice'
 import { getChefPool, getChefUser } from '../graphql/fetcher'
+import { VOLT } from '../constants'
 
 export enum Chef {
     CHEF_V2,
@@ -74,7 +75,7 @@ export default class ChefRewardProgram extends RewardProgram {
       const userTotalStaked = weiToNumber(user?.amount).toString()
 
       const {
-        // reserveUSD,
+        reserveUSD,
         totalSupply,
         token0,
         token1,
@@ -89,7 +90,7 @@ export default class ChefRewardProgram extends RewardProgram {
         totalReserve1
       )
 
-      const pairPrice = 0.9
+      const pairPrice = reserveUSD / totalSupply
       const totalStakedUSD = weiToNumber(userTotalStaked) * pairPrice
       const globalTotalStakeUSD = weiToNumber(globalTotalStake) * pairPrice
 
@@ -102,17 +103,8 @@ export default class ChefRewardProgram extends RewardProgram {
           [pid, account]
         )
 
-        // const voltAddress = await ethCall(
-        //   this.stakingAddress,
-        //   'volt',
-        //   ABI,
-        //   this.web3,
-        //   []
-        // )
-
         const voltPerSec = (pool?.owner?.voltPerSec / 1e18)
-        // const voltPrice = await fetchTokenPrice(voltAddress, networkId)
-        const voltPrice = 0.002
+        const voltPrice = await fetchTokenPrice(VOLT, networkId)
 
         const rewardPerSec = (pool?.allocPoint / pool?.owner?.totalAllocPoint) * voltPerSec
         const rewardPerDay = rewardPerSec * 3600 * 24
