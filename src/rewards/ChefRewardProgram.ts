@@ -2,10 +2,10 @@ import RewardProgram from './RewardProgam'
 import ABI from '../constants/abi/MasterChef.json'
 import { calculateReserves, getChef, weiToNumber } from '../utils'
 import { ethCall, ethTransaction } from '../utils/eth'
-import fetchTokenPrice from '../utils/fetchTokenPrice'
 import { getChefPool, getChefUser } from '../graphql/fetcher'
 import { VOLT } from '../constants'
 import fetchChefPairInfo from '../utils/fetchChefPairInfo'
+import fetchVoltageTokenPrice from '../utils/fetchVoltageTokenPrice'
 
 export enum Chef {
     CHEF_V2,
@@ -104,7 +104,7 @@ export default class ChefRewardProgram extends RewardProgram {
         )
 
         const voltPerSec = (pool?.owner?.voltPerSec / 1e18)
-        const voltPrice = await fetchTokenPrice(VOLT, networkId)
+        const voltPrice = await fetchVoltageTokenPrice(VOLT, networkId)
 
         const rewardPerSec = (pool?.allocPoint / pool?.owner?.totalAllocPoint) * voltPerSec
         const rewardPerDay = rewardPerSec * 3600 * 24
