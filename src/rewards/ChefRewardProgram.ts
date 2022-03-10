@@ -2,10 +2,10 @@ import RewardProgram from './RewardProgam'
 import ABI from '../constants/abi/MasterChef.json'
 import { calculateReserves, getChef, weiToNumber } from '../utils'
 import { ethCall, ethTransaction } from '../utils/eth'
-import fetchPairInfo from '../utils/fetchPairInfo'
 import fetchTokenPrice from '../utils/fetchTokenPrice'
 import { getChefPool, getChefUser } from '../graphql/fetcher'
 import { VOLT } from '../constants'
+import fetchChefPairInfo from '../utils/fetchChefPairInfo'
 
 export enum Chef {
     CHEF_V2,
@@ -81,7 +81,7 @@ export default class ChefRewardProgram extends RewardProgram {
         token1,
         totalReserve0,
         totalReserve1
-      } = await fetchPairInfo(pairAddress, networkId, this.web3)
+      } = await fetchChefPairInfo(pairAddress, networkId)
 
       const [reserve0, reserve1] = calculateReserves(
         globalTotalStake,
