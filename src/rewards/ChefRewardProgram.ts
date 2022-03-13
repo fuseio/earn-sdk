@@ -3,9 +3,10 @@ import ABI from '../constants/abi/MasterChef.json'
 import { calculateReserves, getChef, weiToNumber } from '../utils'
 import { ethCall, ethTransaction } from '../utils/eth'
 import { getChefPool, getChefUser } from '../graphql/fetcher'
-import { VOLT } from '../constants'
-import fetchChefPairInfo from '../utils/fetchChefPairInfo'
+import { VOLT, xVOLT } from '../constants'
 import fetchVoltageTokenPrice from '../utils/fetchVoltageTokenPrice'
+import fetchTokenInfo from '../utils/fetchTokenInfo'
+import fetchChefPairInfo from '../utils/fetchChefPairInfo'
 
 export enum Chef {
     CHEF_V2,
@@ -74,23 +75,39 @@ export default class ChefRewardProgram extends RewardProgram {
       const globalTotalStake = pool?.balance
       const userTotalStaked = weiToNumber(user?.amount).toString()
 
-      const {
-        reserveUSD,
-        totalSupply,
-        token0,
-        token1,
-        totalReserve0,
-        totalReserve1
-      } = await fetchChefPairInfo(pairAddress, networkId)
+      let reserve0, reserve1, token0, token1, pairPrice
+      if (pairAddress.toLowerCase() === xVOLT.toLowerCase()) {
+        token0 = await fetchTokenInfo(xVOLT, this.web3)
+        token1 = null
 
-      const [reserve0, reserve1] = calculateReserves(
-        globalTotalStake,
-        totalSupply,
-        totalReserve0,
-        totalReserve1
-      )
+        reserve0 = globalTotalStake
+        reserve1 = null
 
-      const pairPrice = reserveUSD / totalSupply
+        pairPrice = await fetchVoltageTokenPrice(VOLT, networkId)
+      } else {
+        const {
+          reserveUSD,
+          totalSupply,
+          token0: token0Info,
+          token1: token1Info,
+          totalReserve0,
+          totalReserve1
+        } = await fetchChefPairInfo(pairAddress, networkId)
+
+        const reserves = calculateReserves(
+          globalTotalStake,
+          totalSupply,
+          totalReserve0,
+          totalReserve1
+        )
+
+        token0 = token0Info
+        token1 = token1Info
+        reserve0 = reserves[0].toFixed()
+        reserve1 = reserves[1].toFixed()
+        pairPrice = reserveUSD / totalSupply
+      }
+
       const totalStakedUSD = weiToNumber(userTotalStaked) * pairPrice
       const globalTotalStakeUSD = weiToNumber(globalTotalStake) * pairPrice
 
@@ -106,19 +123,32 @@ export default class ChefRewardProgram extends RewardProgram {
         const voltPerSec = (pool?.owner?.voltPerSec / 1e18)
         const voltPrice = await fetchVoltageTokenPrice(VOLT, networkId)
 
-        const rewardPerSec = (pool?.allocPoint / pool?.owner?.totalAllocPoint) * voltPerSec
-        const rewardPerDay = rewardPerSec * 3600 * 24
-        const rewardPerDayUSD = rewardPerDay * voltPrice
+        const baseRewardPerSec = (pool?.allocPoint / pool?.owner?.totalAllocPoint) * voltPerSec
+        const baseRewardPerDay = baseRewardPerSec * 3600 * 24
+        const baseRewardPerDayUSD = baseRewardPerDay * voltPrice
 
-        const roiPerSec = (rewardPerSec * voltPrice) / globalTotalStakeUSD
-        const aprPercent = roiPerSec * 12 * 30 * 24 * 3600
+        const baseRoiPerSec = (baseRewardPerSec * voltPrice) / globalTotalStakeUSD
+        const baseAprPercent = baseRoiPerSec * 12 * 30 * 24 * 3600
+
+        const bonusRewardPrice = await fetchVoltageTokenPrice(pendingTokens.bonusTokenAddress, networkId)
+        const bonusRewardPerSec = pool?.rewarder?.tokenPerSec / pool?.rewarder?.decimals
+        const bonusRewardPerDay = bonusRewardPerSec * 3600 * 24
+        const bonusRewardPerDayUSD = bonusRewardPerDay * bonusRewardPrice
+
+        const bounsRoiPerSec = (bonusRewardPerSec * bonusRewardPrice) / globalTotalStakeUSD
+        const bonusAprPercent = bounsRoiPerSec * 12 * 30 * 24 * 3600
 
         return [{
-          rewardPerDay,
-          rewardPerDayUSD,
-          accuruedRewards: pendingTokens[0],
-          apyPercent: aprPercent,
-          rewardRate: 0
+          baseRewardPerDay,
+          baseRewardPerDayUSD,
+          baseRewardSymbol: 'VOLT',
+          pendingBaseReward: pendingTokens?.pendingVolt,
+          baseAprPercent,
+          bonusRewardPerDay,
+          bonusRewardPerDayUSD,
+          bonusRewardSymbol: pool?.rewarder?.symbol,
+          pendingBonusReward: pendingTokens?.pendingBonusToken,
+          bonusAprPercent
         }]
       }
 
@@ -132,8 +162,8 @@ export default class ChefRewardProgram extends RewardProgram {
         totalStakedUSD,
         globalTotalStakeUSD,
         pairPrice,
-        reserve0: reserve0.toFixed(),
-        reserve1: reserve1.toFixed()
+        reserve0,
+        reserve1
       }
     }
 

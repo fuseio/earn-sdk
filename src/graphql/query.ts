@@ -58,6 +58,13 @@ export function poolQuery (pid: number) {
           voltPerSec
           totalAllocPoint
         }
+        rewarder {
+          rewardToken
+          name
+          symbol
+          decimals
+          tokenPerSec
+        }
       }
     }
   `
