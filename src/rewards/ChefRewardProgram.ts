@@ -131,7 +131,7 @@ export default class ChefRewardProgram extends RewardProgram {
         const baseAprPercent = baseRoiPerSec * 12 * 30 * 24 * 3600
 
         const bonusRewardPrice = await fetchVoltageTokenPrice(pendingTokens.bonusTokenAddress, networkId)
-        const bonusRewardPerSec = pool?.rewarder?.tokenPerSec / pool?.rewarder?.decimals
+        const bonusRewardPerSec = pool?.rewarder?.tokenPerSec / 1e18
         const bonusRewardPerDay = bonusRewardPerSec * 3600 * 24
         const bonusRewardPerDayUSD = bonusRewardPerDay * bonusRewardPrice
 
