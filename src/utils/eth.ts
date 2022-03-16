@@ -3,6 +3,20 @@ enum JsonRpc {
   EthCall,
 }
 
+
+interface MethodOptions {
+  from?: string;
+  gasPrice?: string;
+  gas?: number;
+}
+interface CallOptions extends MethodOptions {
+  blockNumber?: number | string;
+}
+
+interface SendOptions extends CallOptions {
+  value?: string;
+}
+
 function ethJsonRpc (
   jsonRpcMethod: JsonRpc,
   address: string,
@@ -10,16 +24,16 @@ function ethJsonRpc (
   abi: any,
   web3: any,
   parameters: any[] = [],
-  account?: string
+  methodOptions: MethodOptions,
 ) {
   const contract = new web3.eth.Contract(abi, address)
 
   if (jsonRpcMethod === JsonRpc.EthSendTransaction) {
     return contract.methods[method](...parameters)
-      .send({ from: account })
+      .send(methodOptions)
   } else if (jsonRpcMethod === JsonRpc.EthCall) {
     return contract.methods[method](...parameters)
-      .call()
+      .call(methodOptions, (methodOptions as SendOptions).blockNumber)
   }
 }
 
@@ -37,9 +51,10 @@ export function ethCall (
   method: string,
   abi: any,
   web3: any,
-  parameters: any[] = []
+  parameters: any[] = [],
+  callOptions: CallOptions = {}
 ) {
-  return ethJsonRpc(JsonRpc.EthCall, address, method, abi, web3, parameters)
+  return ethJsonRpc(JsonRpc.EthCall, address, method, abi, web3, parameters, callOptions)
 }
 
 /**
@@ -57,7 +72,7 @@ export function ethTransaction (
   abi: any,
   web3: any,
   parameters: any[] = [],
-  account: string
+  methodOptions: CallOptions = {}
 ) {
-  return ethJsonRpc(JsonRpc.EthSendTransaction, address, method, abi, web3, parameters, account)
+  return ethJsonRpc(JsonRpc.EthSendTransaction, address, method, abi, web3, parameters, methodOptions)
 }
