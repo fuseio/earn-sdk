@@ -80,7 +80,7 @@ export default class ChefRewardProgram extends RewardProgram {
       if (pairAddress.toLowerCase() === xVOLT.toLowerCase()) {
         tokens = [await fetchTokenInfo(xVOLT, this.web3), null]
 
-        reserves[0] = [globalTotalStake, null]
+        reserves = [globalTotalStake, null]
 
         pairPrice = await fetchVoltageTokenPrice(VOLT, networkId)
       } else {
