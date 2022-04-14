@@ -23,6 +23,23 @@ export function pairQuery (address: string) {
     `
 }
 
+export function stablePoolQuery (poolAddress: string) {
+  return gql`
+    {
+      swaps(id: "${poolAddress.toLowerCase()}") {
+        numTokens
+        balances
+        lpTokenSupply
+        virtualPrice
+        tokens {
+          id
+          decimals
+        }
+      }
+    }
+  `
+}
+
 export function tokenPriceQuery (address: string) {
   return gql`
         {

@@ -75,36 +75,30 @@ export default class ChefRewardProgram extends RewardProgram {
       const globalTotalStake = pool?.balance
       const userTotalStaked = weiToNumber(user?.amount).toString()
 
-      let reserve0, reserve1, token0, token1, pairPrice
-      if (pairAddress.toLowerCase() === xVOLT.toLowerCase()) {
-        token0 = await fetchTokenInfo(xVOLT, this.web3)
-        token1 = null
+      let reserves, tokens, pairPrice
 
-        reserve0 = globalTotalStake
-        reserve1 = null
+      if (pairAddress.toLowerCase() === xVOLT.toLowerCase()) {
+        tokens = [await fetchTokenInfo(xVOLT, this.web3), null]
+
+        reserves[0] = [globalTotalStake, null]
 
         pairPrice = await fetchVoltageTokenPrice(VOLT, networkId)
       } else {
         const {
           reserveUSD,
           totalSupply,
-          token0: token0Info,
-          token1: token1Info,
-          totalReserve0,
-          totalReserve1
+          tokens: tokensInfo,
+          totalReserves
         } = await fetchChefPairInfo(pairAddress, networkId)
 
-        const reserves = calculateReserves(
+        const _reserves = calculateReserves(
           globalTotalStake,
           totalSupply,
-          totalReserve0,
-          totalReserve1
+          totalReserves
         )
 
-        token0 = token0Info
-        token1 = token1Info
-        reserve0 = reserves[0].toFixed()
-        reserve1 = reserves[1].toFixed()
+        tokens = tokensInfo
+        reserves = _reserves.map((reserve) => reserve.toFixed())
         pairPrice = reserveUSD / totalSupply
       }
 
@@ -157,13 +151,11 @@ export default class ChefRewardProgram extends RewardProgram {
       return {
         globalTotalStake,
         rewardsInfo,
-        token0,
-        token1,
+        tokens,
         totalStakedUSD,
         globalTotalStakeUSD,
         pairPrice,
-        reserve0,
-        reserve1
+        reserves
       }
     }
 

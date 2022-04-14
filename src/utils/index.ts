@@ -1,5 +1,5 @@
 import { BigNumber } from 'bignumber.js'
-import { MASTERCHEF_V2_ADDRESS, MASTERCHEF_V3_ADDRESS } from '../constants'
+import { MASTERCHEF_V2_ADDRESS, MASTERCHEF_V3_ADDRESS, STABLESWAP_POOLS } from '../constants'
 import { masterChefV2Client, masterChefV3Client } from '../graphql'
 import { Chef } from '../rewards/ChefRewardProgram'
 
@@ -16,16 +16,14 @@ export function numberToWei (value: string, decimals = 18): string {
 export function calculateReserves (
   globalTotalStake: string,
   totalSupply: string,
-  totalReserve0: string,
-  totalReserve1: string
+  totalReserves: string[]
 ) {
-  const reserve0 = new BigNumber(globalTotalStake)
-    .div(numberToWei(totalSupply))
-    .multipliedBy(numberToWei(totalReserve0))
-  const reserve1 = new BigNumber(globalTotalStake)
-    .div(numberToWei(totalSupply))
-    .multipliedBy(numberToWei(totalReserve1))
-  return [reserve0, reserve1]
+  const reserves = totalReserves.map(
+    (totalReserve) =>
+      new BigNumber(globalTotalStake)
+        .div(numberToWei(totalSupply))
+        .multipliedBy(numberToWei(totalReserve)))
+  return reserves
 }
 
 export function calculateApy (
@@ -51,4 +49,8 @@ export function getChefSubgraph (chef: Chef) {
   } else if (chef === Chef.CHEF_V3) {
     return masterChefV3Client
   }
+}
+
+export function isStableswap (address: string) {
+  return STABLESWAP_POOLS.includes(address)
 }
