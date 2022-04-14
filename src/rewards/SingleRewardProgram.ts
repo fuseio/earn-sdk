@@ -200,8 +200,7 @@ export default class SingleRewardProgram extends RewardProgram {
     const [reserve0, reserve1] = calculateReserves(
       globalTotalStake,
       totalSupply,
-      totalReserve0,
-      totalReserve1
+      [totalReserve0, totalReserve1]
     )
 
     const lockedRewards = new BigNumber(totalRewards).minus(
