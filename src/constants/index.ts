@@ -8,7 +8,7 @@ export const UNISWAP_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/uni
 export const FUSESWAP_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/fuseio/fuseswap'
 export const VOLTAGE_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/voltfinance/voltage-exchange'
 export const PANCAKESWAP_SUBGRAPH_URL = 'https://bsc.streamingfast.io/subgraphs/name/pancakeswap/exchange-v2'
-export const STABLESWAP_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/t0mcr8se/stableswap-subgraph'
+export const STABLESWAP_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/voltfinance/stableswap'
 
 export const MASTERCHEF_V2_ADDRESS = '0xc71E27C7e128d9CAEb2b8cA756647f7F199cF39e'
 export const MASTERCHEF_V3_ADDRESS = '0xE3e184a7b75D0Ae6E17B58F5283b91B4E0A2604F'
