@@ -1,8 +1,7 @@
 import { NetworkId } from '../constants'
 import { pairQuery, stablePoolQuery } from '../graphql/query'
 import { stableswapClient, voltageClient } from '../graphql'
-import { isStableswap, weiToNumber } from '.'
-import fetchTokenPrice from './fetchTokenPrice'
+import { isStableswap } from '.'
 
 async function fetchPairInfoVoltage (address: string) {
   let result
@@ -12,9 +11,8 @@ async function fetchPairInfoVoltage (address: string) {
     })
     const tokens = result?.data?.swaps?.tokens?.map((token) => token?.id)
     const reserves = result?.data?.swaps?.balances
-    const pooledTokensUsd = result?.data?.swaps?.balanes?.map(async (balance, i) => (await fetchTokenPrice(tokens[i], NetworkId.FUSE)) * balance)
     return {
-      reserveUSD: pooledTokensUsd?.reduce((mem, balanceUsd, i) => mem + weiToNumber(balanceUsd, result?.data?.swaps?.tokens?.[i]?.decimals)),
+      reserveUSD: result?.data?.swaps?.lpTokenSupply * 1,
       totalSupply: result?.data?.swaps?.lpTokenSupply,
       tokens,
       totalReserves: reserves
