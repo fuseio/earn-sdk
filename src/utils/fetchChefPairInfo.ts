@@ -9,7 +9,7 @@ async function fetchPairInfoVoltage (address: string) {
     result = await stableswapClient.query({
       query: stablePoolQuery(address)
     })
-    const tokens = result?.data?.swaps?.tokens?.map((token) => token?.id)
+    const tokens = result?.data?.swaps?.tokens
     const reserves = result?.data?.swaps?.balances
     return {
       reserveUSD: result?.data?.swaps?.lpTokenSupply * 1,
