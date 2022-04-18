@@ -180,13 +180,11 @@ export default class MultiRewardProgram extends RewardProgram {
     return {
       globalTotalStake,
       rewardsInfo,
-      token0,
-      token1,
+      tokens: [token0, token1],
       totalStakedUSD,
       globalTotalStakeUSD,
       pairPrice,
-      reserve0: reserve0.toFixed(),
-      reserve1: reserve1.toFixed()
+      reserves: [reserve0.toFixed(), reserve1.toFixed()]
     }
   }
 
