@@ -33,7 +33,8 @@ export function stablePoolQuery (poolAddress: string) {
         virtualPrice
         tokens {
           id
-          decimals
+          name
+          symbol
         }
       }
     }
