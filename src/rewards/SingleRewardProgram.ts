@@ -200,8 +200,7 @@ export default class SingleRewardProgram extends RewardProgram {
     const [reserve0, reserve1] = calculateReserves(
       globalTotalStake,
       totalSupply,
-      totalReserve0,
-      totalReserve1
+      [totalReserve0, totalReserve1]
     )
 
     const lockedRewards = new BigNumber(totalRewards).minus(
@@ -234,13 +233,11 @@ export default class SingleRewardProgram extends RewardProgram {
           apyPercent
         }
       ],
-      token0,
-      token1,
+      tokens: [token0, token1],
       totalStakedUSD,
       globalTotalStakeUSD,
       pairPrice,
-      reserve0: reserve0.toFixed(),
-      reserve1: reserve1.toFixed(),
+      reserves: [reserve0.toFixed(), reserve1.toFixed()],
       lockedRewards: lockedRewards.toFixed()
     }
   }
