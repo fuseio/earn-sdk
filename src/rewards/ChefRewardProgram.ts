@@ -78,7 +78,8 @@ export default class ChefRewardProgram extends RewardProgram {
       let reserves, tokens, pairPrice
 
       if (pairAddress.toLowerCase() === xVOLT.toLowerCase()) {
-        tokens = [await fetchTokenInfo(xVOLT, this.web3), null]
+        const token0 = await fetchTokenInfo(xVOLT, this.web3)
+        tokens = [{ id: xVOLT, ...token0 }, null]
 
         reserves = [globalTotalStake, null]
 
