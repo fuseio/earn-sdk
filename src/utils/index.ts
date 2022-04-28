@@ -1,5 +1,5 @@
 import { BigNumber } from 'bignumber.js'
-import { MASTERCHEF_V2_ADDRESS, MASTERCHEF_V3_ADDRESS, STABLESWAP_POOLS } from '../constants'
+import { MASTERCHEF_V2_ADDRESS, MASTERCHEF_V3_ADDRESS, STABLESWAP_POOL_LP_HASH } from '../constants'
 import { masterChefV2Client, masterChefV3Client } from '../graphql'
 import { Chef } from '../rewards/ChefRewardProgram'
 
@@ -52,5 +52,5 @@ export function getChefSubgraph (chef: Chef) {
 }
 
 export function isStableswap (address: string) {
-  return STABLESWAP_POOLS.includes(address)
+  return !!STABLESWAP_POOL_LP_HASH[address]
 }

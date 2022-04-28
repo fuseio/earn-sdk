@@ -1,4 +1,4 @@
-import { NetworkId } from '../constants'
+import { NetworkId, STABLESWAP_POOL_LP_HASH } from '../constants'
 import { pairQuery, stablePoolQuery } from '../graphql/query'
 import { stableswapClient, voltageClient } from '../graphql'
 import { isStableswap } from '.'
@@ -7,13 +7,13 @@ async function fetchPairInfoVoltage (address: string) {
   let result
   if (isStableswap(address)) {
     result = await stableswapClient.query({
-      query: stablePoolQuery(address)
+      query: stablePoolQuery(STABLESWAP_POOL_LP_HASH[address.toLowerCase()])
     })
-    const tokens = result?.data?.swaps?.tokens
-    const reserves = result?.data?.swaps?.balances
+    const tokens = result?.data?.swap?.tokens
+    const reserves = result?.data?.swap?.balances
     return {
-      reserveUSD: result?.data?.swaps?.lpTokenSupply * 1,
-      totalSupply: result?.data?.swaps?.lpTokenSupply,
+      reserveUSD: result?.data?.swap?.lpTokenSupply * 1,
+      totalSupply: result?.data?.swap?.lpTokenSupply,
       tokens,
       totalReserves: reserves
     }
