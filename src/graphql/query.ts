@@ -26,7 +26,7 @@ export function pairQuery (address: string) {
 export function stablePoolQuery (poolAddress: string) {
   return gql`
     {
-      swaps(id: "${poolAddress.toLowerCase()}") {
+      swap(id: "${poolAddress.toLowerCase()}") {
         numTokens
         balances
         lpTokenSupply
