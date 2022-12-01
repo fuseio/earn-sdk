@@ -3,7 +3,7 @@ import ABI from '../constants/abi/MasterChef.json'
 import { calculateReserves, getChef, weiToNumber } from '../utils'
 import { ethCall, ethTransaction } from '../utils/eth'
 import { getChefPool, getChefUser } from '../graphql/fetcher'
-import { VOLT, xVOLT } from '../constants'
+import { FUSD, VOLT, xVOLT } from '../constants'
 import fetchVoltageTokenPrice from '../utils/fetchVoltageTokenPrice'
 import fetchTokenInfo from '../utils/fetchTokenInfo'
 import fetchChefPairInfo from '../utils/fetchChefPairInfo'
@@ -84,6 +84,13 @@ export default class ChefRewardProgram extends RewardProgram {
         reserves = [globalTotalStake, null]
 
         pairPrice = await fetchVoltageTokenPrice(VOLT, networkId)
+      } else if (pairAddress.toLowerCase() === FUSD.toLowerCase()) {
+        const token0 = await fetchTokenInfo(VOLT, this.web3)
+        tokens = [{ id: VOLT, ...token0 }, null]
+
+        reserves = [globalTotalStake, null]
+
+        pairPrice = 1
       } else {
         const {
           reserveUSD,
