@@ -85,8 +85,8 @@ export default class ChefRewardProgram extends RewardProgram {
 
         pairPrice = await fetchVoltageTokenPrice(VOLT, networkId)
       } else if (pairAddress.toLowerCase() === FUSD.toLowerCase()) {
-        const token0 = await fetchTokenInfo(VOLT, this.web3)
-        tokens = [{ id: VOLT, ...token0 }, null]
+        const token0 = await fetchTokenInfo(FUSD, this.web3)
+        tokens = [{ id: FUSD, ...token0 }, null]
 
         reserves = [globalTotalStake, null]
 
