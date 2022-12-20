@@ -6,7 +6,7 @@ export enum NetworkId {
 
 export const UNISWAP_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2'
 export const FUSESWAP_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/fuseio/fuseswap'
-export const VOLTAGE_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/voltfinance/voltage-exchange'
+export const VOLTAGE_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/voltfinance/voltage-exchange-v2'
 export const PANCAKESWAP_SUBGRAPH_URL = 'https://bsc.streamingfast.io/subgraphs/name/pancakeswap/exchange-v2'
 export const STABLESWAP_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/voltfinance/stableswap'
 
