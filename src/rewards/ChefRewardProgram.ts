@@ -1,9 +1,10 @@
 import RewardProgram from './RewardProgam'
 import ABI from '../constants/abi/MasterChef.json'
+import LIQUID_STAKING_ABI from '../constants/abi/LiquidStaking.json'
 import { calculateReserves, getChef, weiToNumber } from '../utils'
 import { ethCall, ethTransaction } from '../utils/eth'
 import { getChefPool, getChefUser } from '../graphql/fetcher'
-import { FUSD, VOLT, xVOLT } from '../constants'
+import { FUSD, LIQUID_STAKING, sFUSE, VOLT, WFUSE, xVOLT } from '../constants'
 import fetchVoltageTokenPrice from '../utils/fetchVoltageTokenPrice'
 import fetchTokenInfo from '../utils/fetchTokenInfo'
 import fetchChefPairInfo from '../utils/fetchChefPairInfo'
@@ -91,6 +92,22 @@ export default class ChefRewardProgram extends RewardProgram {
         reserves = [globalTotalStake, null]
 
         pairPrice = 1
+      } else if (pairAddress.toLowerCase() === sFUSE.toLowerCase()) {
+        const token0 = await fetchTokenInfo(sFUSE, this.web3)
+        tokens = [{ id: sFUSE, ...token0 }, null]
+
+        reserves = [globalTotalStake, null]
+
+        const fusePrice = await fetchVoltageTokenPrice(WFUSE, networkId)
+
+        const priceRatio = await ethCall(
+          LIQUID_STAKING,
+          'priceRatio',
+          LIQUID_STAKING_ABI,
+          this.web3
+        )
+
+        pairPrice = fusePrice * weiToNumber(priceRatio)
       } else {
         const {
           reserveUSD,
