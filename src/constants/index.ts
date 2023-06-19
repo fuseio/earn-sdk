@@ -19,6 +19,10 @@ export const MASTERCHEF_V3_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/na
 export const xVOLT = '0x97a6e78c9208c21afaDa67e7E61d7ad27688eFd1'
 export const VOLT = '0x34Ef2Cc892a88415e9f02b91BfA9c91fC0bE6bD4'
 export const FUSD = '0xd0ce1b4A349C35e61Af02f5971e71ac502441E49'
+export const sFUSE = '0xb1DD0B683d9A56525cC096fbF5eec6E60FE79871'
+export const WFUSE = '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629'
+
+export const LIQUID_STAKING = '0xa3dc222eC847Aac61FB6910496295bF344Ea46be'
 
 export const STABLESWAP_POOL_LP_HASH = {
   '0xa3c1046290b490e629e11ace35863cb0cae382ab': '0x2a68d7c6ea986fa06b2665d08b4d08f5e7af960c',
