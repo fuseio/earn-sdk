@@ -145,13 +145,18 @@ export default class ChefRewardProgram extends RewardProgram {
       const globalTotalStakeUSD = weiToNumber(globalTotalStake) * pairPrice
 
       const getRewards = async () => {
-        const pendingTokens = await ethCall(
-          this.stakingAddress,
-          'pendingTokens',
-          ABI,
-          this.web3,
-          [pid, account]
-        )
+        // const pendingTokens = await ethCall(
+        //   this.stakingAddress,
+        //   'pendingTokens',
+        //   ABI,
+        //   this.web3,
+        //   [pid, account]
+        // )
+        const pendingTokens = {
+          pendingVolt: 0,
+          pendingBonusToken: 0,
+          bonusTokenAddress: '0x0'
+        }
 
         const voltPerSec = (pool?.owner?.voltPerSec / 1e18)
         const voltPrice = await fetchVoltageTokenPrice(VOLT, networkId)
